@@ -1,0 +1,181 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2012
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-02-24 09:12+Central Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: SPSSINC_TURF.py:62
+msgid "Information"
+msgstr ""
+"資訊"
+
+#: SPSSINC_TURF.py:65
+msgid "Threshold value must be between 0 and 100"
+msgstr ""
+"臨界值值必須介於 0 及 100 之間"
+
+#: SPSSINC_TURF.py:67
+msgid "Invalid value for the minimum for the Maximum Group Size tables"
+msgstr ""
+"無效的群組最大大小表格最小值"
+
+#: SPSSINC_TURF.py:79
+msgid "TURF analysis"
+msgstr ""
+"TURF 分析"
+
+#: SPSSINC_TURF.py:149
+msgid "Analysis stopped.  All variables have a positive count below the threshold of %s positive responses."
+msgstr ""
+"分析已停止。所有變數的正向計數皆低於 %s 正向回應的臨界值。"
+
+#: SPSSINC_TURF.py:154
+msgid "Set unions to be calculated"
+msgstr ""
+"要計算的集合聯合"
+
+#: SPSSINC_TURF.py:158
+msgid "Analysis stopped because the required set union operations would exceed the specified limit"
+msgstr ""
+"因為所需的集合聯合操作可能超過指定限制，所以分析已停止"
+
+#: SPSSINC_TURF.py:178
+msgid "Maximum Group Size: %s.  Reach and Frequency."
+msgstr ""
+"群組大小上限：%s。範圍及次數。"
+
+#: SPSSINC_TURF.py:180 SPSSINC_TURF.py:220
+#: SPSSINC_TURF.py:410
+msgid "Cycle: %s"
+msgstr ""
+"循環：%s"
+
+#: SPSSINC_TURF.py:181
+msgid "Variables: "
+msgstr ""
+"變數："
+
+#: SPSSINC_TURF.py:182 SPSSINC_TURF.py:221
+msgid "Variables"
+msgstr ""
+"變數"
+
+#: SPSSINC_TURF.py:183 SPSSINC_TURF.py:222
+msgid "Statistics"
+msgstr ""
+"統計資料"
+
+#: SPSSINC_TURF.py:184 SPSSINC_TURF.py:223
+msgid "Reach"
+msgstr ""
+"範圍"
+
+#: SPSSINC_TURF.py:185 SPSSINC_TURF.py:224
+#: SPSSINC_TURF.py:363
+msgid "Pct of Cases"
+msgstr ""
+"觀察值之 Pct"
+
+#: SPSSINC_TURF.py:186 SPSSINC_TURF.py:225
+msgid "Frequency"
+msgstr ""
+"次數"
+
+#: SPSSINC_TURF.py:187 SPSSINC_TURF.py:226
+#: SPSSINC_TURF.py:364
+msgid "Pct of Responses"
+msgstr ""
+"回應之 Pct"
+
+#: SPSSINC_TURF.py:189
+msgid "Mean Importance of Positive Responses"
+msgstr ""
+"正向回應平均數重要性"
+
+#: SPSSINC_TURF.py:190
+msgid "Total Importance of Positive Responses"
+msgstr ""
+"正向回應總合重要性"
+
+#: SPSSINC_TURF.py:213
+msgid "Sets of variables analyzed (unions plus one-variable sets)"
+msgstr ""
+"已分析的變數集合（聯合加上單一變數集合）"
+
+#: SPSSINC_TURF.py:219
+msgid "Best Reach and Frequency by Group Size"
+msgstr ""
+"根據群組大小的最佳範圍及次數"
+
+#: SPSSINC_TURF.py:223 SPSSINC_TURF.py:360
+msgid "Group Size"
+msgstr ""
+"群組大小"
+
+#: SPSSINC_TURF.py:269
+msgid "An importance weight is missing or not numeric.  Variable: %s"
+msgstr ""
+"重要性權重遺漏或不為數值。變數：%s"
+
+#: SPSSINC_TURF.py:271
+msgid "An importance weight was specified for a variable not in the analysis: %s"
+msgstr ""
+"所指定的變數重要性權重不在分析中：%s"
+
+#: SPSSINC_TURF.py:274
+msgid "Some variables were not assigned an importance weight: %s"
+msgstr ""
+"某些變數未指派重要性權重：%s"
+
+#: SPSSINC_TURF.py:319 SPSSINC_TURF.py:328
+msgid "Importance Weights"
+msgstr ""
+"重要性權重"
+
+#: SPSSINC_TURF.py:327
+msgid "Variable"
+msgstr ""
+"變數"
+
+#: SPSSINC_TURF.py:361
+msgid "Percentage"
+msgstr ""
+"百分比"
+
+#: SPSSINC_TURF.py:362
+msgid "Reach and Frequency by Group Size"
+msgstr ""
+"根據群組大小的範圍及次數"
+
+#: SPSSINC_TURF.py:782
+msgid "---"
+msgstr ""
+"---"
+
+#: SPSSINC_TURF.py:837
+msgid "Messages"
+msgstr ""
+"訊息"
+
