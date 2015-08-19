@@ -1,0 +1,151 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2012
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-02-24 09:12+Central Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: SPSSINC_TURF.py:62
+msgid "Information"
+msgstr "Информация"
+
+#: SPSSINC_TURF.py:65
+msgid "Threshold value must be between 0 and 100"
+msgstr "Пороговое значение должно быть между 0 и 100."
+
+#: SPSSINC_TURF.py:67
+msgid "Invalid value for the minimum for the Maximum Group Size tables"
+msgstr "Недопустимое значение минимума для таблиц максимального размера группы"
+
+#: SPSSINC_TURF.py:79
+msgid "TURF analysis"
+msgstr "TURF анализ"
+
+#: SPSSINC_TURF.py:149
+msgid "Analysis stopped.  All variables have a positive count below the threshold of %s positive responses."
+msgstr "Анализ был остановлен.  Для всех переменных количества — это положительные числа меньшие порогового значения %s положительных откликов."
+
+#: SPSSINC_TURF.py:154
+msgid "Set unions to be calculated"
+msgstr "Задайте объединения, которые будут рассчитываться."
+
+#: SPSSINC_TURF.py:158
+msgid "Analysis stopped because the required set union operations would exceed the specified limit"
+msgstr "Анализ был остановлен, так как требуемый набор объединительных операций превысит заданный предел."
+
+#: SPSSINC_TURF.py:178
+msgid "Maximum Group Size: %s.  Reach and Frequency."
+msgstr "Максимальный размер группы: %s.  Охват и частота."
+
+#: SPSSINC_TURF.py:180 SPSSINC_TURF.py:220
+#: SPSSINC_TURF.py:410
+msgid "Cycle: %s"
+msgstr "Цикл: %s"
+
+#: SPSSINC_TURF.py:181
+msgid "Variables: "
+msgstr "Переменные: "
+
+#: SPSSINC_TURF.py:182 SPSSINC_TURF.py:221
+msgid "Variables"
+msgstr "Переменные"
+
+#: SPSSINC_TURF.py:183 SPSSINC_TURF.py:222
+msgid "Statistics"
+msgstr "Статистики"
+
+#: SPSSINC_TURF.py:184 SPSSINC_TURF.py:223
+msgid "Reach"
+msgstr "Охват"
+
+#: SPSSINC_TURF.py:185 SPSSINC_TURF.py:224
+#: SPSSINC_TURF.py:363
+msgid "Pct of Cases"
+msgstr "Процент наблюдений"
+
+#: SPSSINC_TURF.py:186 SPSSINC_TURF.py:225
+msgid "Frequency"
+msgstr "Частота"
+
+#: SPSSINC_TURF.py:187 SPSSINC_TURF.py:226
+#: SPSSINC_TURF.py:364
+msgid "Pct of Responses"
+msgstr "Процент ответов"
+
+#: SPSSINC_TURF.py:189
+msgid "Mean Importance of Positive Responses"
+msgstr "Важность среднего значения положительных ответов"
+
+#: SPSSINC_TURF.py:190
+msgid "Total Importance of Positive Responses"
+msgstr "Важность общего значения положительных ответов"
+
+#: SPSSINC_TURF.py:213
+msgid "Sets of variables analyzed (unions plus one-variable sets)"
+msgstr "Наборы анализируемых переменных (объединения плюс наборы, состоящие из одной переменной)"
+
+#: SPSSINC_TURF.py:219
+msgid "Best Reach and Frequency by Group Size"
+msgstr "Наилучшие охват и частота по размеру группы"
+
+#: SPSSINC_TURF.py:223 SPSSINC_TURF.py:360
+msgid "Group Size"
+msgstr "Размер группы"
+
+#: SPSSINC_TURF.py:269
+msgid "An importance weight is missing or not numeric.  Variable: %s"
+msgstr "Вес важности отсутствует или не является числовым.  Переменная: %s"
+
+#: SPSSINC_TURF.py:271
+msgid "An importance weight was specified for a variable not in the analysis: %s"
+msgstr "Указан вес важности для переменной вне анализа: %s"
+
+#: SPSSINC_TURF.py:274
+msgid "Some variables were not assigned an importance weight: %s"
+msgstr "Некоторым переменным не назначен вес важности: %s"
+
+#: SPSSINC_TURF.py:319 SPSSINC_TURF.py:328
+msgid "Importance Weights"
+msgstr "Веса важности"
+
+#: SPSSINC_TURF.py:327
+msgid "Variable"
+msgstr "Переменная"
+
+#: SPSSINC_TURF.py:361
+msgid "Percentage"
+msgstr "Процент"
+
+#: SPSSINC_TURF.py:362
+msgid "Reach and Frequency by Group Size"
+msgstr "Охват и частота по размеру группы"
+
+#: SPSSINC_TURF.py:782
+msgid "---"
+msgstr "---"
+
+#: SPSSINC_TURF.py:837
+msgid "Messages"
+msgstr "Сообщения"
+
