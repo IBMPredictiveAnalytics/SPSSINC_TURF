@@ -1,0 +1,16 @@
+Name: SPSSINC TURF
+Dialog-Specs: SPSSINC_TURF.spd
+Command-Specs: SPSSINC_TURF.xml
+Code-Files: SPSSINC_TURF.py
+Summary: Perform TURF analysis
+Description: This procedure performs TURF analysis (Total Unduplicated
+  Reach and Frequency), which finds groups of response variables that 
+ have the highest coverage in a sample. In contrast to simple frequenc
+ ies, it accounts for the overlap in responses to different items.
+Author: JKP, IBM SPSS
+Version: 2.7.1
+Product-Version: 18
+Date: 6/7/2013
+Categories: Extension Commands, Python, Statistics
+Plugins: Python
+Translation-Catalogues: lang
