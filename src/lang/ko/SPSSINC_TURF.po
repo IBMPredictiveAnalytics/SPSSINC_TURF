@@ -1,0 +1,151 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2012
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-02-24 09:12+Central Standard Time\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: SPSSINC_TURF.py:62
+msgid "Information"
+msgstr "정보"
+
+#: SPSSINC_TURF.py:65
+msgid "Threshold value must be between 0 and 100"
+msgstr "한계치 값은 0과 100 사이여야 합니다."
+
+#: SPSSINC_TURF.py:67
+msgid "Invalid value for the minimum for the Maximum Group Size tables"
+msgstr "최대 그룹 크기 표에 대한 최소값이 유효하지 않음"
+
+#: SPSSINC_TURF.py:79
+msgid "TURF analysis"
+msgstr "TURF 분석"
+
+#: SPSSINC_TURF.py:149
+msgid "Analysis stopped.  All variables have a positive count below the threshold of %s positive responses."
+msgstr "분석이 중지되었습니다.  모든 변수의 양의 빈도가 %s 양의 응답의 한계치보다 작습니다."
+
+#: SPSSINC_TURF.py:154
+msgid "Set unions to be calculated"
+msgstr "계산할 합집합 설정"
+
+#: SPSSINC_TURF.py:158
+msgid "Analysis stopped because the required set union operations would exceed the specified limit"
+msgstr "필요한 합집합 설정 작업이 지정된 제한을 초과하므로 분석이 중지되었습니다."
+
+#: SPSSINC_TURF.py:178
+msgid "Maximum Group Size: %s.  Reach and Frequency."
+msgstr "최대 그룹 크기: %s.  범위 및 빈도."
+
+#: SPSSINC_TURF.py:180 SPSSINC_TURF.py:220
+#: SPSSINC_TURF.py:410
+msgid "Cycle: %s"
+msgstr "순환: %s"
+
+#: SPSSINC_TURF.py:181
+msgid "Variables: "
+msgstr "변수: "
+
+#: SPSSINC_TURF.py:182 SPSSINC_TURF.py:221
+msgid "Variables"
+msgstr "변수"
+
+#: SPSSINC_TURF.py:183 SPSSINC_TURF.py:222
+msgid "Statistics"
+msgstr "통계량"
+
+#: SPSSINC_TURF.py:184 SPSSINC_TURF.py:223
+msgid "Reach"
+msgstr "범위"
+
+#: SPSSINC_TURF.py:185 SPSSINC_TURF.py:224
+#: SPSSINC_TURF.py:363
+msgid "Pct of Cases"
+msgstr "케이스의 백분율"
+
+#: SPSSINC_TURF.py:186 SPSSINC_TURF.py:225
+msgid "Frequency"
+msgstr "도수"
+
+#: SPSSINC_TURF.py:187 SPSSINC_TURF.py:226
+#: SPSSINC_TURF.py:364
+msgid "Pct of Responses"
+msgstr "응답의 백분율"
+
+#: SPSSINC_TURF.py:189
+msgid "Mean Importance of Positive Responses"
+msgstr "양의 응답의 평균 중요도"
+
+#: SPSSINC_TURF.py:190
+msgid "Total Importance of Positive Responses"
+msgstr "양의 응답의 총 중요도"
+
+#: SPSSINC_TURF.py:213
+msgid "Sets of variables analyzed (unions plus one-variable sets)"
+msgstr "분석할 변수의 집합(합집합과 단일 변수 집합)"
+
+#: SPSSINC_TURF.py:219
+msgid "Best Reach and Frequency by Group Size"
+msgstr "그룹 크기별 최대 범위 및 빈도"
+
+#: SPSSINC_TURF.py:223 SPSSINC_TURF.py:360
+msgid "Group Size"
+msgstr "집단 크기"
+
+#: SPSSINC_TURF.py:269
+msgid "An importance weight is missing or not numeric.  Variable: %s"
+msgstr "중요도 가중값이 없거나 숫자가 아닙니다.  변수: %s"
+
+#: SPSSINC_TURF.py:271
+msgid "An importance weight was specified for a variable not in the analysis: %s"
+msgstr "중요도 가중값이 분석에 없는 변수에 지정됨: %s"
+
+#: SPSSINC_TURF.py:274
+msgid "Some variables were not assigned an importance weight: %s"
+msgstr "일부 변수가 중요도 가중값에 할당되지 않음: %s"
+
+#: SPSSINC_TURF.py:319 SPSSINC_TURF.py:328
+msgid "Importance Weights"
+msgstr "중요도 가중값"
+
+#: SPSSINC_TURF.py:327
+msgid "Variable"
+msgstr "변수"
+
+#: SPSSINC_TURF.py:361
+msgid "Percentage"
+msgstr "퍼센트"
+
+#: SPSSINC_TURF.py:362
+msgid "Reach and Frequency by Group Size"
+msgstr "그룹 크기별 범위 및 빈도"
+
+#: SPSSINC_TURF.py:782
+msgid "---"
+msgstr "---"
+
+#: SPSSINC_TURF.py:837
+msgid "Messages"
+msgstr "메시지"
+
