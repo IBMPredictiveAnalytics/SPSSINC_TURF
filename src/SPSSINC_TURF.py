@@ -4,7 +4,7 @@ from __future__ import with_statement
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2012
+# * (C) Copyright IBM Corp. 1989, 2016
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
@@ -13,7 +13,7 @@ from __future__ import with_statement
 # TURF Analysis
 
 __author__ = "SPSS, JKP"
-__version__ = "2.5.0"
+__version__ = "3.1.0"
 
 # history
 # 05-Feb-2009  original version
@@ -28,23 +28,210 @@ __version__ = "2.5.0"
 # 23-jun-2010  translatable procedure name
 # 04-jun-2011  Add summary table and chart
 # 04-feb-2012 Add importance weights
+# 12-may-2014 Guard case where only 1 best is shown
+# 22-may-2014 Extend algorithm with heats.  More control over output.
+# 24-mar-2016 Allow specific variables to be forced into every combination
 
 import spss, spssaux, spssdata
 from extension import Template, Syntax, processcmd
 from itertools import imap
 from operator import mul
 
-import copy, heapq, time, os, random
+import copy, heapq, time, os, random, textwrap
+
+class DataException(Exception):
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return str(self.message)
+
+# Can't use * or ** constructs, because caller needs to check
+# required arguments and set defaults
+def superturf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0, 
+         maxsets=None, mintable=1, logfile=None, logfreq=500000, iweights=None, strict=True,
+         showtables="all", doplot=True, useheats=False, heatsize=None, advance=None, showheats=True,
+         force=0):
+  
+    variables = spssaux._buildvarlist(variables)
+    if len(variables) < force or force > bestn:
+        raise ValueError(_("The number of forced variables is too large"))
+    # No heats if all variables are forced
+    if len(variables) == force:
+        useheats = False
+    else:
+        heatgroups, heatsize, advance, finalsize = makeheats(variables[force:], heatsize, advance, bestn, number)  
+    
+    if not useheats or len(heatgroups) == 1:
+        turf(variables, bestn, number, threshold, criteria, removalcycles, 
+         maxsets, mintable, logfile, logfreq, iweights, strict,
+         showtables, doplot, useheats, heatsize, advance, showheats, force=force)
+        return
+
+    StartProcedure("TURF Heat Parameters", "TURFHEAT")
+    table = spss.BasePivotTable(_("TURF Heat Parameters"), "TURFHEAT")
+    table.SetDefaultFormatSpec(spss.FormatSpec.Count)
+    caption = _("""Sizes are approximate and do not account for any threshold""")
+    if removalcycles > 0:
+        caption = "\n".join([caption, _("""Removal cycles apply only to the final round with heats""")])
+    table.Caption(caption)
+    table.SimplePivotTable(rowlabels=[_("Settings")],
+        collabels=[_("Number of Input Variables"), _("Heat Size"), _("Number to Advance"), _("Final Run Size")],
+        cells=[len(variables), heatsize, advance, finalsize])
+    spss.EndProcedure()
+    winners = set()
+    omsdata = "D" + str(random.uniform(.1,1))
+    for hn, heat in enumerate(heatgroups):
+        if force:
+            heat = variables[:force] + list(heat)
+        spss.Submit(r"""oms select tables /if subtypes='REACHFREQ'
+/destination xmlworkspace="%(omsdata)s" format=oxml
+/TAG="%(omsdata)s".""" % locals())
+        try:
+            ok = True
+            #turf(list(heat), advance+force, number+force, threshold, criteria, 0, 
+            turf(list(heat), bestn+force, advance+force, threshold, criteria, 0, 
+                    maxsets, mintable, logfile, logfreq, iweights, strict,
+                    "final", False , useheats, heatsize, advance, showheats, hn,
+                    force=force)
+        except DataException:
+            print _("Heat %s stopped.  All variables have a positive count below the specified threshold.  Variables:") % (hn + 1)
+            print "\n".join(textwrap.wrap(", ".join(heat), 100))
+            
+            ok = False
+        spss.Submit(r"""omsend tag="%(omsdata)s".""" % locals())
+        if ok:
+            res = spss.EvaluateXPath(omsdata, "/",
+            """//pivotTable[@subType="REACHFREQ"]//dimension[@axis="row"]/category/@text""")
+            winners.update(harvest(res, advance))
+            spss.DeleteXPathHandle(omsdata)
+        
+    # do final round to pick best of the best unless all the cases were deleted
+    if winners:
+        winners = reforce(winners, variables, force)
+        turf(winners, bestn, number, threshold, criteria, removalcycles, 
+            maxsets, mintable, logfile, logfreq, iweights, strict,
+            showtables, doplot, useheats, heatsize, advance, showheats, "final", force=force)
+    else:
+        raise ValueError(_("""No usable variables were found"""))
+        
+    
+def makeheats(variables, heatsize, advance, bestn, number):
+    """Return a list containing sets of variables, the heatsize, and the advance
+    
+    variables is the total set of variables
+    heatsize is the (maximum) size of each heat
+    advance is the number of heat results to keep
+    bestn is the maximum number of variables
+    number is the number of results requested"""
+    
+    nvar = len(variables)
+
+    if heatsize is None:
+        # balance the heats.  Should work reasonably well up to about 300 variables
+        # After that, TURF would benefit greatly from a three-round tournament
+        heatsize = 15
+        if advance is None:
+            advance = 2
+        nheats = int((nvar+heatsize-1)//heatsize)
+        # ensure that last heat has at least 3 variables
+        lastheatsize = nvar - (nheats - 1) * heatsize
+        while lastheatsize <= 2 and nvar > 3:
+            heatsize -= 1
+            lastheatsize = nvar - (nheats - 1) * heatsize
+            
+        nfinalround = nheats * advance
+        if nfinalround < bestn:
+            advance += round((bestn - nfinalround)/nheats)
+            nfinalround = nheats * advance
+            
+        # Keep final round size balanced relative to prior heat sizes.
+        # cost(heatsize) grows exponentially, so this is only an approximation
+        # and there may be many heats but only one final.
+        # As heat size grows, the number of winners should increase a little.
+        while nfinalround > 1.25 * heatsize:
+            heatsize += 1
+            if heatsize > 20:
+                advance = max(advance, 3)
+            nheats = int((nvar+heatsize-1)//heatsize)
+            nfinalround = nheats * advance    # upper bound
+        if nfinalround < number:   # not enough to make it to display requested number
+            advance += max((number - nfinalround)//nheats,1)
+    else:
+        nheats = int((nvar+heatsize-1)//heatsize)
+    if advance is None:
+        advance = 2
+    advance = int(min(advance, heatsize))
+    nfinalround = nheats * advance
+    # variables are assigned to heats randomly
+    heats = []
+    variables = set(variables)
+    while len(variables) > 0:
+        try:
+            heat = random.sample(variables, heatsize)
+        except:
+            heat = variables
+        heats.append(heat)
+        variables = variables - set(heat)
+    return heats, heatsize, advance, nfinalround
+
+def forceheat(heat, variables, force):
+    """Adjust heat variable list for forced variables and return as list
+    
+    heat is the set or list of selected variables
+    variables is the complete list of variables
+    force is the number to force as the first n in the variable list"""
+    
+    s = set(heat)
+    for v in range(force):
+        s.discard(variables[v])        # ok if not found
+    heat = list(s)
+    for v in range(force):
+            heat.insert(0, variables[v])
+    return heat
+
+def reforce(winners, variables, force):
+    """If forcing, set forced variables to the head of the list
+    
+    winners is the set of selected variables
+    variables is the complete list
+    force is the number in variables to force"""
+    
+    winners = list(winners)
+    if force == 0:
+        return winners
+    return forceheat(winners, variables, force)
+    
+    
+def harvest(varlist, advance):
+    """Return set of best variables from list of best
+    
+    varlist is a list each element of which is a comma-separated
+    list of variable names
+    advance is how many winners to advance - at least the number
+    of combinations"""
+    
+    # may return more or fewer variables than specified
+    
+    win = set()
+    for vlist in varlist:
+        win.update(vlist.replace(",", " ").split())
+        if len(win) >= advance:
+            break
+    return win
+
 
 def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0, 
-         maxsets=None, mintable=1, logfile=None, logfreq=500000, iweights=None, strict=True):
+         maxsets=None, mintable=1, logfile=None, logfreq=500000, iweights=None, strict=True,
+         showtables="all", doplot=True, useheats=False, heatsize=10, advance=None, 
+         showheats=True, heatnumber=-1, force=0):
     """Calculate best reaching combinations eliminating duplicates
     
     variables is a sequence of variable names.  Each variable must be coded so that
     value=1 is the response to tabulate
     bestn is the depth, i.e., number of questions that can be combined.  bestn = 1 gives
     only single frequencies, bestn = 2 gives best sets of one or two questions.
-    number is the maximum nfumber of groups to display
+    number is the maximum number of groups to display
     threshold is minimum percentage required to consider a variable.  If the percentage
     of positives is lower, the variable is discarded.  Variables with 0 positive responses
     are always discarded.
@@ -60,9 +247,12 @@ def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0
 """
     
     info = NonProcPivotTable("INFORMATION", tabletitle=_("Information"),
-        columnlabels=["Count"])
+        columnlabels=[_("Count")],
+        caption = _("Assumes no variables are forced"))
     if not (0. <= threshold <= 100.):
         raise ValueError(_("Threshold value must be between 0 and 100"))
+    if showtables == "final":
+        mintable = bestn
     if mintable >bestn:
         raise ValueError(_("Invalid value for the minimum for the Maximum Group Size tables"))
     mintable -= 1
@@ -71,6 +261,12 @@ def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0
         criteria = [1.]
     removelistnames = []  # accumulates variables removed on remove cycles
     variables = spssaux._buildvarlist(variables)
+    if force > len(variables):
+        raise ValueError_("""The number of forced variables exceeds the number of input variables""")
+    if force > 0 and removalcycles > 0:
+        raise ValueError(_("Removal cycles cannot be used with forced variables"))
+    if force > bestn:
+        raise ValueError(_("Cannot force more variables than specified in best n"))
     iwt = Iweights(variables, iweights, strict)
     cycle = 0
     log = Writelog(logfile)
@@ -135,9 +331,10 @@ def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0
             totalthresh = totalcases * threshold/100.
             totalresponses = float(0)
             qcounts = []
+            # forced variables are excluded from pruning even if count is zero
             for qn in range(nquest-1, -1, -1):
                 numresp = wlen.wtlen(qq[qn])
-                if numresp >= totalthresh and numresp > 0:
+                if (numresp >= totalthresh and numresp > 0) or qn < force:
                     qcounts.insert(0, numresp)
                     totalresponses += numresp
                 else:
@@ -145,8 +342,9 @@ def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0
                     variables.pop(qn)
                     iwt.pop(qn)
             nquest = len(qq)
-            if nquest == 0:
-                raise ValueError(_("Analysis stopped.  All variables have a positive count below the threshold of %s positive responses.") % totalthresh)
+            #   If all the variables including forced ones have 0 count, must stop
+            if nquest == 0 or max(qcounts) == 0:
+                raise DataException(_("Analysis stopped.  All variables have a positive count below the threshold of %s positive responses.") % totalthresh)
             bestn = min(bestn, nquest)
             mintable = min(mintable, bestn)   #always do at least one round
             
@@ -157,7 +355,7 @@ def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0
             if maxsets is not None and unionsrequired > maxsets:
                 raise ValueError(_("Analysis stopped because the required set union operations would exceed the specified limit"))
             
-            visitor = Counter(qq, qcounts, bestn, number, wlen, log, logfreq, iwt, caseweights, casenum)
+            visitor = Counter(qq, qcounts, bestn, number, wlen, log, logfreq, iwt, caseweights, casenum, force)
             for i in range(nquest):
                 log.write("Visiting variable %d" % i)
                 visitor.visit([], i)
@@ -166,19 +364,32 @@ def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0
     
             summarycats = list()   # for accumulating best results across group sizes
             summarystats = list()
-            for b in range(bestn):
+            for b in range(max(force-1, 0), bestn):
                 log.write("Calculating best %i" % b)
                 reach, freq, wtmean, wttotal = visitor.best(b+1, number)
                 if b ==0:
                     removeindex = reach[0][1][0]
                     removelistnames.append(variables[removeindex])  # variable name of current best variable
+                summarystats.append([b + 1, reach[0][0], 100 * float(reach[0][0] / totalcases), 
+                    freq[0], 100 * float(freq[0] / totalresponses)])
                 if b < mintable:
                     continue
-    
-                pt = spss.BasePivotTable(_("Maximum Group Size: %s.  Reach and Frequency.") % \
+                if useheats:
+                    if isinstance(heatnumber, int):
+                        lbl = heatnumber + 1
+                    else:
+                        lbl = _("Final")
+                    heatinfo = _("Heat: %s.  ") % lbl
+                else:
+                    heatinfo = ""
+                    
+                caption = _("Variables: ") + ", ".join(variables) + removeinfo
+                if force > 0:
+                    caption = caption + "\n" + _("Forced variables: %s") % ", ".join(variables[:force])
+                pt = spss.BasePivotTable(heatinfo + _("Maximum Group Size: %s.  Reach and Frequency.") % \
                     (b+1),
                     "REACHFREQ", _("Cycle: %s") % cycle, False, 
-                    caption = _("Variables: ") + ", ".join(variables) + removeinfo)
+                    caption=caption)
                 rowdim = pt.Append(spss.Dimension.Place.row, _("Variables"))
                 coldim = pt.Append(spss.Dimension.Place.column, _("Statistics"))
                 categories = [spss.CellText.String(_("Reach")), 
@@ -207,15 +418,17 @@ def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0
                         values.extend([spss.CellText.Number(wtmean[i], spss.FormatSpec.GeneralStat),
                             spss.CellText.Number(wttotal[i], spss.FormatSpec.GeneralStat)])
                     pt.SetCellsByRow(row, values)
-                summarystats.append([b + 1, reach[0][0], 100 * float(reach[0][0] / totalcases), 
-                    freq[0], 100 * float(freq[0] / totalresponses)])
+                #summarystats.append([b + 1, reach[0][0], 100 * float(reach[0][0] / totalcases), 
+                    #freq[0], 100 * float(freq[0] / totalresponses)])
                 
             info.addrow(rowlabel=_("Sets of variables analyzed (unions plus one-variable sets)"),
                         cvalues=[visitor.setops])
             
             # produce summary table for this cycle
-            if bestn > 1:
-                allsummaryresults.append(summarystats)   # collect for charting
+            if bestn > 1 and doplot:
+                allsummaryresults.append(summarystats)   # collect for charting            
+            if bestn > 1 and not showtables == "final":
+                ###allsummaryresults.append(summarystats)   # collect for charting
                 spt = spss.BasePivotTable(_("Best Reach and Frequency by Group Size"),
                     "SUMMARYREACHFREQ", _("Cycle: %s") % cycle, False)
                 rowdim = spt.Append(spss.Dimension.Place.row, _("Variables"))
@@ -236,7 +449,7 @@ def turf(variables, bestn, number, threshold=0, criteria=None, removalcycles = 0
     finally:
         info.generate()
         spss.EndProcedure()
-        if bestn > 1:
+        if bestn > 1 and doplot:
             summaryCharts(allsummaryresults)
         log.close()
         
@@ -440,7 +653,7 @@ class Wlen(object):
 class Counter(object):
     """Calculate reach counts for questions"""
     
-    def __init__(self, qs, qcounts, bestn, number, wlen,log, logfreq, iwt, caseweights, ncases):
+    def __init__(self, qs, qcounts, bestn, number, wlen,log, logfreq, iwt, caseweights, ncases, force):
         """qs is a list of question sets
         qcounts is a list of the total positive response for each question
         bestn is the depth (number of questions) to calculate for
@@ -448,6 +661,7 @@ class Counter(object):
         iwt is the importance weight object
         caseweights is a dictionary of case weights - empty if unweighted
         ncases is the unweighted case count
+        force is the number of initial variables to force into set
         """
         
         # counts is a list with each element a duple.  First duple element is the count.
@@ -459,7 +673,7 @@ class Counter(object):
         self.qcounts = qcounts   # response count for questions overall
         self.bestn = bestn
         self.counts = []
-        self.hh = Countheaps(bestn, number)
+        self.hh = Countheaps(bestn, number, force)
         self.qsets = []
         self.wlen = wlen
         self.setops = 0
@@ -469,6 +683,7 @@ class Counter(object):
         self.memomean = {}  # remembering importance-weighted means
         self.caseweights = caseweights
         self.casecount = ncases + 1
+        self.force = force
         
     def visit(self, nodelist, qnumber):
         """tally the current node and visit right children.
@@ -636,7 +851,7 @@ class C(object):
     
 class Countheaps(object):
     """maintain a list of heaps for counts"""
-    def __init__(self, depth, number):
+    def __init__(self, depth, number, force):
         """depth is the number of heaps to be maintained: one for each number of variables
         number is the minimum number of items to be kept.
         
@@ -645,6 +860,10 @@ class Countheaps(object):
         self.heaplist = []
         self.depth = depth
         self.number = number
+        self.force = force
+        # forceset tracks the numbers of the forced variables
+        self.forceset = set(range(force))
+        
         for i in range(depth):
             self.heaplist.append([C(0,[])])
             heapq.heapify(self.heaplist[-1])
@@ -658,6 +877,10 @@ class Countheaps(object):
         # If the heap size is less than self.number, always add the item
         # If the size is >= number and count is > min element, remove inferior elements
         # subject to min heap size, and add the new element
+        
+        if self.force > 0:
+            if not set(self.forceset).issubset(varlist):
+                return
 
         h = self.heaplist[len(varlist)-1]  # pick the right heap
 
@@ -666,7 +889,7 @@ class Countheaps(object):
             return
         if count < h[0].count:
             return
-        while count > h[0].count and len(h) >= self.number:
+        while len(h) >= self.number and count > h[0].count:
             heapq.heappop(h)
         heapq.heappush(h, C(count, varlist))
 
@@ -680,6 +903,8 @@ SPSSINC TURF VARIABLES=variable-list
 [CRITERIA = {1*|list-of-values}]
 [MAXSETS=number]
 [REMOVALCYCLES={0*|n}] [LOGFILE=filespec] [LOGFREQ=value]
+[PLOT={YES*|NO}]
+[/HEATS USEHEATS=YES*|NO HEATSIZE=number ADVANCE=number]
 [/IMPORTANCE IWEIGHTS=varname wt varname wt ... [STRICT={YES*|NO}]
 [/HELP]
 
@@ -695,6 +920,7 @@ will be analyzed.
 
 MINTABLE can specify the minimum group size table to display.  Tables
 will be displayed from MINTABLE to BESTN.  By default, tables start with 1.
+When running heats, only the last table is shown for each heat.
 
 NUMBERTODISPLAY indicates the maximum number of combinations to report
 in each table.
@@ -714,17 +940,50 @@ for example, a table with the best single variables for cases that did not have 
 response to the top of the size 1 list and so on.  The precentages would then be 
 calculated on the reduced samples.  By default, no removal cycles are carried out.
 
+REMOVALCYCLES apply only to the final round if using heats.
+
 If MAXSETS is specified, the analysis is not run if the number of set union 
-operations required exceeds it.
+operations required exceeds it.  For heats, the limit applies separately
+for each heat.
 
 if a file specification is given in LOGFILE, an operations log will be written to that file.
 The contents, which are timestamped in seconds, report various stages in the calculation.
 For large problems, the time is dominated by the number of set operations required.
 A log entry is made every LOGFREQ set union operations, so it should be possible to 
-extrapolate to the approximate completion time.  Entries are flushed to disk i
-mmediately, so you can watch the log as the job progresses.
+extrapolate to the approximate completion time.  Entries are flushed to disk
+immediately, so you can watch the log as the job progresses.
+
+If using heats, the log file is overwritten for each heat and final, so
+it shows only the latest iteration. Intermediate tables appear in the Viewer
+at the end of each heat.
 
 LOGFREQ is the frequency of logging completed set operations.  The default is 500000.
+
+PLOT=YES or NO determines whether the reach and frequency by group size plot
+is displayed.  The plot is never displayed for heats until the final round.
+
+The HEATS subcommand controls how calculations are done and has a very
+large effect on the running time if the number of variables is large.
+With a large number of variables, TURF can take many hours, even days,
+to complete.  Specify USEHEATS=YES to improve performance.  When
+using heats, variables are randomly divided into groups, and TURF
+is run on each group.  The winning ADVANCE number of variables are
+recorded for each heat, and a final heat is run using all the winning
+variables.  The result is an approximate solution.  In practice, it
+is usually very close to the exact solution.
+
+
+HEATSIZE specifies the number of variables for each heat.
+If there would be only one heat, non-heat mode is used.
+
+ADVANCE specifies the number of winners to be retained for
+the final round.
+
+If HEATSIZE or ADVANCE are omitted, these parameters are
+calculated for best performance.
+
+Removal cycles cannot be combined with heats.
+
 
 The optional IMPORTANCE subcommand provides importance weights for variables.
 By default, all variables have an importance weight of 1.
@@ -744,52 +1003,7 @@ counts are sums of weights with no rounding or truncation.
 /HELP displays this help and does nothing else.
 """
 
-def Run(args):
-    """Execute the SPSSINC TURF command"""
-
-    args = args[args.keys()[0]]
-    ###print args   #debug
-    
-    ##debugging
-    try:
-        import wingdbstub
-        if wingdbstub.debugger != None:
-            import time
-            wingdbstub.debugger.StopDebug()
-            time.sleep(2)
-            wingdbstub.debugger.StartDebug()
-    except:
-        pass
-
-    oobj = Syntax([
-        Template("VARIABLES", subc="",  ktype="existingvarlist", var="variables", islist=True),
-        Template("BESTN", subc="OPTIONS",  ktype="int", var="bestn", vallist=[1]),
-        Template("MINTABLE", subc="OPTIONS",  ktype="int", var="mintable", vallist=[1]),
-        Template("NUMBERTODISPLAY", subc="OPTIONS", ktype="int", var="number", vallist=[1]),
-        Template("THRESHOLD", subc="OPTIONS", ktype="float", var="threshold"),
-        Template("CRITERIA", subc="OPTIONS", ktype="int", var="criteria", islist=True),
-        Template("REMOVALCYCLES", subc="OPTIONS", ktype="int", var="removalcycles", vallist=[0]),
-        Template("MAXSETS", subc="OPTIONS", ktype="int", var="maxsets"),
-        Template("LOGFILE", subc="OPTIONS", ktype="literal", var="logfile"),
-        Template("LOGFREQ", subc="OPTIONS", ktype="int", var="logfreq",vallist=[1]),
-        Template("IWEIGHTS", subc="IMPORTANCE", ktype="str", var="iweights", islist=True),
-        Template("STRICT", subc="IMPORTANCE", ktype="bool", var="strict"),
-        Template("HELP", subc="", ktype="bool")])
-    
-        # ensure localization function is defined
-    global _
-    try:
-        _("---")
-    except:
-        def _(msg):
-            return msg
-
-        # A HELP subcommand overrides all else
-    if args.has_key("HELP"):
-            print helptext
-    else:
-            processcmd(oobj, args, turf, vardict=spssaux.VariableDict())
-            
+  
 class NonProcPivotTable(object):
     """Accumulate an object that can be turned into a basic pivot table once a procedure state can be established"""
     
@@ -899,3 +1113,86 @@ def StartProcedure(procname, omsid):
         spss.StartProcedure(procname, omsid)
     except TypeError:  #older version
         spss.StartProcedure(omsid)
+        
+def Run(args):
+    """Execute the SPSSINC TURF command"""
+
+    args = args[args.keys()[0]]
+    ###print args   #debug
+    
+    ##debugging
+    #try:
+        #import wingdbstub
+        #if wingdbstub.debugger != None:
+            #import time
+            #wingdbstub.debugger.StopDebug()
+            #time.sleep(2)
+            #wingdbstub.debugger.StartDebug()
+    #except:
+        #pass
+
+    oobj = Syntax([
+        Template("VARIABLES", subc="",  ktype="existingvarlist", var="variables", islist=True),
+        Template("FORCE", subc="", ktype="int", var="force", vallist=[0]),
+        
+        Template("BESTN", subc="OPTIONS",  ktype="int", var="bestn", vallist=[1]),
+        Template("MINTABLE", subc="OPTIONS",  ktype="int", var="mintable", vallist=[1]),
+        Template("NUMBERTODISPLAY", subc="OPTIONS", ktype="int", var="number", vallist=[1]),
+        Template("THRESHOLD", subc="OPTIONS", ktype="float", var="threshold"),
+        Template("CRITERIA", subc="OPTIONS", ktype="int", var="criteria", islist=True),
+        Template("REMOVALCYCLES", subc="OPTIONS", ktype="int", var="removalcycles", vallist=[0]),
+        Template("MAXSETS", subc="OPTIONS", ktype="int", var="maxsets"),
+        Template("LOGFILE", subc="OPTIONS", ktype="literal", var="logfile"),
+        Template("LOGFREQ", subc="OPTIONS", ktype="int", var="logfreq",vallist=[1]),
+        Template("SHOW", subc="OPTIONS", ktype="str", var="showtables",
+            vallist=["all", "final"]),
+        Template("PLOT", subc="OPTIONS", ktype="bool", var="doplot"),
+        
+        Template("USEHEATS", subc="HEATS", ktype="bool", var="useheats"),
+        Template("HEATSIZE", subc="HEATS", ktype="int", var="heatsize",
+            vallist=[1]),
+        Template("ADVANCE", subc="HEATS", ktype="int", var="advance",
+            vallist=[1]),
+        Template("SHOWHEATS", subc="HEATS", ktype="bool", var="showheats"),
+        
+        Template("IWEIGHTS", subc="IMPORTANCE", ktype="str", var="iweights", islist=True),
+        Template("STRICT", subc="IMPORTANCE", ktype="bool", var="strict"),
+
+        
+        Template("HELP", subc="", ktype="bool")])
+    
+        # ensure localization function is defined
+    global _
+    try:
+        _("---")
+    except:
+        def _(msg):
+            return msg
+
+        # A HELP subcommand overrides all else
+    if args.has_key("HELP"):
+        #print helptext
+        helper()
+    else:
+            processcmd(oobj, args, superturf, vardict=spssaux.VariableDict())
+
+def helper():
+    """open html help in default browser window
+    
+    The location is computed from the current module name"""
+    
+    import webbrowser, os.path
+    
+    path = os.path.splitext(__file__)[0]
+    helpspec = "file://" + path + os.path.sep + \
+         "markdown.html"
+    
+    # webbrowser.open seems not to work well
+    browser = webbrowser.get()
+    if not browser.open_new(helpspec):
+        print("Help file not found:" + helpspec)
+try:    #override
+    from extension import helper
+except:
+    pass
+

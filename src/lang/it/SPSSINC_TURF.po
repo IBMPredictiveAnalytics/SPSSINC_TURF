@@ -3,11 +3,15 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2012
+# * (C) Copyright IBM Corp. 1989, 2014
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
 # ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
 
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR ORGANIZATION
@@ -16,7 +20,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-02-24 09:12+Central Standard Time\n"
+"POT-Creation-Date: 2014-07-16 10:45+China Standard Time\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,156 +30,220 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: SPSSINC_TURF.py:62
+#: SPSSINC_TURF.py:63
+msgid "TURF Heat Parameters"
+msgstr ""
+"Parametri eliminatoria TURF"
+
+#: SPSSINC_TURF.py:65
+msgid "Sizes are approximate and do not account for any threshold"
+msgstr ""
+"Le dimensioni sono approssimative e non considerano eventuali soglie"
+
+#: SPSSINC_TURF.py:67
+msgid "Removal cycles apply only to the final round with heats"
+msgstr ""
+"I cicli di rimozione si applicano solo al turno finale con le eliminatorie"
+
+#: SPSSINC_TURF.py:69
+msgid "Settings"
+msgstr ""
+"Impostazioni"
+
+#: SPSSINC_TURF.py:70
+msgid "Final Run Size"
+msgstr ""
+"Dimensione esecuzione finale"
+
+#: SPSSINC_TURF.py:70
+msgid "Heat Size"
+msgstr ""
+"Dimensione eliminatoria"
+
+#: SPSSINC_TURF.py:70
+msgid "Number of Input Variables"
+msgstr ""
+"Numero di variabili di input"
+
+#: SPSSINC_TURF.py:70
+msgid "Number to Advance"
+msgstr ""
+"Numero di avanzamenti"
+
+#: SPSSINC_TURF.py:85
+msgid "Heat %s stopped.  All variables have a positive count below the specified threshold.  Variables:"
+msgstr ""
+"Eliminatoria %s arrestata. Tutte le variabili hanno un conteggio positivo al di sotto della soglia specificata. Variabili:"
+
+#: SPSSINC_TURF.py:102
+msgid "No usable variables were found"
+msgstr ""
+"Non sono state trovate variabili utilizzabili"
+
+#: SPSSINC_TURF.py:206
 msgid "Information"
 msgstr ""
 "Informazioni"
 
-#: SPSSINC_TURF.py:65
+#: SPSSINC_TURF.py:207
+msgid "Count"
+msgstr ""
+"Conteggio"
+
+#: SPSSINC_TURF.py:209
 msgid "Threshold value must be between 0 and 100"
 msgstr ""
 "Il valore di soglia deve essere compreso tra 0 e 100"
 
-#: SPSSINC_TURF.py:67
+#: SPSSINC_TURF.py:213
 msgid "Invalid value for the minimum for the Maximum Group Size tables"
 msgstr ""
 "Valore non valido per il minimo delle tabelle Dimensione gruppo max."
 
-#: SPSSINC_TURF.py:79
+#: SPSSINC_TURF.py:225
 msgid "TURF analysis"
 msgstr ""
 "Analisi TURF"
 
-#: SPSSINC_TURF.py:149
+#: SPSSINC_TURF.py:295
 msgid "Analysis stopped.  All variables have a positive count below the threshold of %s positive responses."
 msgstr ""
-"Analisi arrestata.  Tutte le variabili hanno un conteggio positivo al di sotto della soglia di %s risposte positive."
+"Analisi arrestata. Tutte le variabili hanno un conteggio positivo al di sotto della soglia di %s risposte positive."
 
-#: SPSSINC_TURF.py:154
+#: SPSSINC_TURF.py:300
 msgid "Set unions to be calculated"
 msgstr ""
-"Unioni di insiemi da calcolare"
+"Imposta unioni da calcolare"
 
-#: SPSSINC_TURF.py:158
+#: SPSSINC_TURF.py:304
 msgid "Analysis stopped because the required set union operations would exceed the specified limit"
 msgstr ""
 "L'analisi è stata arrestata poiché le operazioni di unione di insiemi richieste supererebbero il limite specificato"
 
-#: SPSSINC_TURF.py:178
+#: SPSSINC_TURF.py:329
+msgid "Final"
+msgstr ""
+"Finale"
+
+#: SPSSINC_TURF.py:330
+msgid "Heat: %s.  "
+msgstr ""
+"Eliminatoria: %s.  "
+
+#: SPSSINC_TURF.py:334
 msgid "Maximum Group Size: %s.  Reach and Frequency."
 msgstr ""
-"Dimensione gruppo massima: %s.  Copertura e frequenza."
+"Dimensione gruppo massima: %s. Copertura e frequenza."
 
-#: SPSSINC_TURF.py:180 SPSSINC_TURF.py:220
-#: SPSSINC_TURF.py:410
+#: SPSSINC_TURF.py:336 SPSSINC_TURF.py:378 SPSSINC_TURF.py:568
 msgid "Cycle: %s"
 msgstr ""
 "Ciclo: %s"
 
-#: SPSSINC_TURF.py:181
+#: SPSSINC_TURF.py:337
 msgid "Variables: "
 msgstr ""
 "Variabili: "
 
-#: SPSSINC_TURF.py:182 SPSSINC_TURF.py:221
+#: SPSSINC_TURF.py:338 SPSSINC_TURF.py:379
 msgid "Variables"
 msgstr ""
 "Variabili"
 
-#: SPSSINC_TURF.py:183 SPSSINC_TURF.py:222
+#: SPSSINC_TURF.py:339 SPSSINC_TURF.py:380
 msgid "Statistics"
 msgstr ""
 "Statistiche"
 
-#: SPSSINC_TURF.py:184 SPSSINC_TURF.py:223
+#: SPSSINC_TURF.py:340 SPSSINC_TURF.py:381
 msgid "Reach"
 msgstr ""
 "Copertura"
 
-#: SPSSINC_TURF.py:185 SPSSINC_TURF.py:224
-#: SPSSINC_TURF.py:363
+#: SPSSINC_TURF.py:341 SPSSINC_TURF.py:382 SPSSINC_TURF.py:521
 msgid "Pct of Cases"
 msgstr ""
-"% di casi"
+"Percentuale di casi"
 
-#: SPSSINC_TURF.py:186 SPSSINC_TURF.py:225
+#: SPSSINC_TURF.py:342 SPSSINC_TURF.py:383
 msgid "Frequency"
 msgstr ""
 "Frequenza"
 
-#: SPSSINC_TURF.py:187 SPSSINC_TURF.py:226
-#: SPSSINC_TURF.py:364
+#: SPSSINC_TURF.py:343 SPSSINC_TURF.py:384 SPSSINC_TURF.py:522
 msgid "Pct of Responses"
 msgstr ""
-"% di risposte"
+"Percentuale di risposte"
 
-#: SPSSINC_TURF.py:189
+#: SPSSINC_TURF.py:345
 msgid "Mean Importance of Positive Responses"
 msgstr ""
 "Importanza media delle risposte positive"
 
-#: SPSSINC_TURF.py:190
+#: SPSSINC_TURF.py:346
 msgid "Total Importance of Positive Responses"
 msgstr ""
 "Importanza totale delle risposte positive"
 
-#: SPSSINC_TURF.py:213
+#: SPSSINC_TURF.py:369
 msgid "Sets of variables analyzed (unions plus one-variable sets)"
 msgstr ""
 "Insiemi di variabili analizzati (unioni più insiemi a una variabile)"
 
-#: SPSSINC_TURF.py:219
+#: SPSSINC_TURF.py:377
 msgid "Best Reach and Frequency by Group Size"
 msgstr ""
 "Copertura e frequenza migliori per dimensione gruppo"
 
-#: SPSSINC_TURF.py:223 SPSSINC_TURF.py:360
+#: SPSSINC_TURF.py:381 SPSSINC_TURF.py:518
 msgid "Group Size"
 msgstr ""
 "Dimensione gruppo"
 
-#: SPSSINC_TURF.py:269
+#: SPSSINC_TURF.py:427
 msgid "An importance weight is missing or not numeric.  Variable: %s"
 msgstr ""
 "Un peso dell'importanza risulta mancante o non è numerico. Variabile: %s"
 
-#: SPSSINC_TURF.py:271
+#: SPSSINC_TURF.py:429
 msgid "An importance weight was specified for a variable not in the analysis: %s"
 msgstr ""
 "È stato specificato un peso dell'importanza per una variabile non presente nell'analisi: %s"
 
-#: SPSSINC_TURF.py:274
+#: SPSSINC_TURF.py:432
 msgid "Some variables were not assigned an importance weight: %s"
 msgstr ""
 "Ad alcune variabili non è stato assegnato un peso dell'importanza: %s"
 
-#: SPSSINC_TURF.py:319 SPSSINC_TURF.py:328
+#: SPSSINC_TURF.py:477 SPSSINC_TURF.py:486
 msgid "Importance Weights"
 msgstr ""
 "Pesi importanza"
 
-#: SPSSINC_TURF.py:327
+#: SPSSINC_TURF.py:485
 msgid "Variable"
 msgstr ""
 "Variabile"
 
-#: SPSSINC_TURF.py:361
+#: SPSSINC_TURF.py:519
 msgid "Percentage"
 msgstr ""
 "Percentuale"
 
-#: SPSSINC_TURF.py:362
+#: SPSSINC_TURF.py:520
 msgid "Reach and Frequency by Group Size"
 msgstr ""
 "Copertura e frequenza per dimensione gruppo"
 
-#: SPSSINC_TURF.py:782
+#: SPSSINC_TURF.py:986
+msgid "Messages"
+msgstr ""
+"Messaggi"
+
+#: SPSSINC_TURF.py:1101
 msgid "---"
 msgstr ""
 "---"
 
-#: SPSSINC_TURF.py:837
-msgid "Messages"
-msgstr ""
-"Messaggi"
+
 

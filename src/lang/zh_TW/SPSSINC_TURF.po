@@ -3,11 +3,15 @@
 # *
 # * IBM SPSS Products: Statistics Common
 # *
-# * (C) Copyright IBM Corp. 1989, 2012
+# * (C) Copyright IBM Corp. 1989, 2014
 # *
 # * US Government Users Restricted Rights - Use, duplication or disclosure
 # * restricted by GSA ADP Schedule Contract with IBM Corp. 
 # ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
 
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR ORGANIZATION
@@ -16,7 +20,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-02-24 09:12+Central Standard Time\n"
+"POT-Creation-Date: 2014-07-16 10:45+China Standard Time\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,156 +30,220 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: SPSSINC_TURF.py:62
+#: SPSSINC_TURF.py:63
+msgid "TURF Heat Parameters"
+msgstr ""
+"TURF 熱圖參數"
+
+#: SPSSINC_TURF.py:65
+msgid "Sizes are approximate and do not account for any threshold"
+msgstr ""
+"大小為大約值且未考慮任何臨界值"
+
+#: SPSSINC_TURF.py:67
+msgid "Removal cycles apply only to the final round with heats"
+msgstr ""
+"移除循環僅適用於具有熱圖的最終回合"
+
+#: SPSSINC_TURF.py:69
+msgid "Settings"
+msgstr ""
+"設定"
+
+#: SPSSINC_TURF.py:70
+msgid "Final Run Size"
+msgstr ""
+"最終執行大小"
+
+#: SPSSINC_TURF.py:70
+msgid "Heat Size"
+msgstr ""
+"熱圖大小"
+
+#: SPSSINC_TURF.py:70
+msgid "Number of Input Variables"
+msgstr ""
+"輸入變數的數目"
+
+#: SPSSINC_TURF.py:70
+msgid "Number to Advance"
+msgstr ""
+"要前移的數目"
+
+#: SPSSINC_TURF.py:85
+msgid "Heat %s stopped.  All variables have a positive count below the specified threshold.  Variables:"
+msgstr ""
+"熱圖 %s 已停止。所有變數的正向計數都低於指定的臨界值。變數："
+
+#: SPSSINC_TURF.py:102
+msgid "No usable variables were found"
+msgstr ""
+"找不到可用的變數"
+
+#: SPSSINC_TURF.py:206
 msgid "Information"
 msgstr ""
 "資訊"
 
-#: SPSSINC_TURF.py:65
+#: SPSSINC_TURF.py:207
+msgid "Count"
+msgstr ""
+"計數"
+
+#: SPSSINC_TURF.py:209
 msgid "Threshold value must be between 0 and 100"
 msgstr ""
-"臨界值值必須介於 0 及 100 之間"
+"臨界值必須介於 0 與 100 之間"
 
-#: SPSSINC_TURF.py:67
+#: SPSSINC_TURF.py:213
 msgid "Invalid value for the minimum for the Maximum Group Size tables"
 msgstr ""
-"無效的群組最大大小表格最小值"
+"無效的「群組大小上限」表格最小值"
 
-#: SPSSINC_TURF.py:79
+#: SPSSINC_TURF.py:225
 msgid "TURF analysis"
 msgstr ""
 "TURF 分析"
 
-#: SPSSINC_TURF.py:149
+#: SPSSINC_TURF.py:295
 msgid "Analysis stopped.  All variables have a positive count below the threshold of %s positive responses."
 msgstr ""
-"分析已停止。所有變數的正向計數皆低於 %s 正向回應的臨界值。"
+"分析已停止。所有變數的正向計數都低於 %s 正向回應的臨界值。"
 
-#: SPSSINC_TURF.py:154
+#: SPSSINC_TURF.py:300
 msgid "Set unions to be calculated"
 msgstr ""
-"要計算的集合聯合"
+"要計算的集合聯集"
 
-#: SPSSINC_TURF.py:158
+#: SPSSINC_TURF.py:304
 msgid "Analysis stopped because the required set union operations would exceed the specified limit"
 msgstr ""
-"因為所需的集合聯合操作可能超過指定限制，所以分析已停止"
+"因為所需的集合聯集作業可能超出指定的限制，所以分析已停止"
 
-#: SPSSINC_TURF.py:178
+#: SPSSINC_TURF.py:329
+msgid "Final"
+msgstr ""
+"最終"
+
+#: SPSSINC_TURF.py:330
+msgid "Heat: %s.  "
+msgstr ""
+"熱圖：%s。"
+
+#: SPSSINC_TURF.py:334
 msgid "Maximum Group Size: %s.  Reach and Frequency."
 msgstr ""
-"群組大小上限：%s。範圍及次數。"
+"群組大小上限：%s。範圍和次數。"
 
-#: SPSSINC_TURF.py:180 SPSSINC_TURF.py:220
-#: SPSSINC_TURF.py:410
+#: SPSSINC_TURF.py:336 SPSSINC_TURF.py:378 SPSSINC_TURF.py:568
 msgid "Cycle: %s"
 msgstr ""
 "循環：%s"
 
-#: SPSSINC_TURF.py:181
+#: SPSSINC_TURF.py:337
 msgid "Variables: "
 msgstr ""
 "變數："
 
-#: SPSSINC_TURF.py:182 SPSSINC_TURF.py:221
+#: SPSSINC_TURF.py:338 SPSSINC_TURF.py:379
 msgid "Variables"
 msgstr ""
 "變數"
 
-#: SPSSINC_TURF.py:183 SPSSINC_TURF.py:222
+#: SPSSINC_TURF.py:339 SPSSINC_TURF.py:380
 msgid "Statistics"
 msgstr ""
 "統計資料"
 
-#: SPSSINC_TURF.py:184 SPSSINC_TURF.py:223
+#: SPSSINC_TURF.py:340 SPSSINC_TURF.py:381
 msgid "Reach"
 msgstr ""
 "範圍"
 
-#: SPSSINC_TURF.py:185 SPSSINC_TURF.py:224
-#: SPSSINC_TURF.py:363
+#: SPSSINC_TURF.py:341 SPSSINC_TURF.py:382 SPSSINC_TURF.py:521
 msgid "Pct of Cases"
 msgstr ""
-"觀察值之 Pct"
+"觀察值百分比"
 
-#: SPSSINC_TURF.py:186 SPSSINC_TURF.py:225
+#: SPSSINC_TURF.py:342 SPSSINC_TURF.py:383
 msgid "Frequency"
 msgstr ""
-"次數"
+"次數分配表"
 
-#: SPSSINC_TURF.py:187 SPSSINC_TURF.py:226
-#: SPSSINC_TURF.py:364
+#: SPSSINC_TURF.py:343 SPSSINC_TURF.py:384 SPSSINC_TURF.py:522
 msgid "Pct of Responses"
 msgstr ""
-"回應之 Pct"
+"回應百分比"
 
-#: SPSSINC_TURF.py:189
+#: SPSSINC_TURF.py:345
 msgid "Mean Importance of Positive Responses"
 msgstr ""
 "正向回應平均數重要性"
 
-#: SPSSINC_TURF.py:190
+#: SPSSINC_TURF.py:346
 msgid "Total Importance of Positive Responses"
 msgstr ""
-"正向回應總合重要性"
+"正向回應總計重要性"
 
-#: SPSSINC_TURF.py:213
+#: SPSSINC_TURF.py:369
 msgid "Sets of variables analyzed (unions plus one-variable sets)"
 msgstr ""
 "已分析的變數集合（聯合加上單一變數集合）"
 
-#: SPSSINC_TURF.py:219
+#: SPSSINC_TURF.py:377
 msgid "Best Reach and Frequency by Group Size"
 msgstr ""
-"根據群組大小的最佳範圍及次數"
+"根據群組大小的最佳範圍和次數"
 
-#: SPSSINC_TURF.py:223 SPSSINC_TURF.py:360
+#: SPSSINC_TURF.py:381 SPSSINC_TURF.py:518
 msgid "Group Size"
 msgstr ""
 "群組大小"
 
-#: SPSSINC_TURF.py:269
+#: SPSSINC_TURF.py:427
 msgid "An importance weight is missing or not numeric.  Variable: %s"
 msgstr ""
-"重要性權重遺漏或不為數值。變數：%s"
+"重要性加權遺漏或不為數值。變數：%s"
 
-#: SPSSINC_TURF.py:271
+#: SPSSINC_TURF.py:429
 msgid "An importance weight was specified for a variable not in the analysis: %s"
 msgstr ""
-"所指定的變數重要性權重不在分析中：%s"
+"所指定的變數重要性加權不在分析中：%s"
 
-#: SPSSINC_TURF.py:274
+#: SPSSINC_TURF.py:432
 msgid "Some variables were not assigned an importance weight: %s"
 msgstr ""
-"某些變數未指派重要性權重：%s"
+"部分變數未指派重要性加權：%s"
 
-#: SPSSINC_TURF.py:319 SPSSINC_TURF.py:328
+#: SPSSINC_TURF.py:477 SPSSINC_TURF.py:486
 msgid "Importance Weights"
 msgstr ""
-"重要性權重"
+"重要性加權"
 
-#: SPSSINC_TURF.py:327
+#: SPSSINC_TURF.py:485
 msgid "Variable"
 msgstr ""
 "變數"
 
-#: SPSSINC_TURF.py:361
+#: SPSSINC_TURF.py:519
 msgid "Percentage"
 msgstr ""
 "百分比"
 
-#: SPSSINC_TURF.py:362
+#: SPSSINC_TURF.py:520
 msgid "Reach and Frequency by Group Size"
 msgstr ""
-"根據群組大小的範圍及次數"
+"根據群組大小的範圍和次數"
 
-#: SPSSINC_TURF.py:782
+#: SPSSINC_TURF.py:986
+msgid "Messages"
+msgstr ""
+"訊息"
+
+#: SPSSINC_TURF.py:1101
 msgid "---"
 msgstr ""
 "---"
 
-#: SPSSINC_TURF.py:837
-msgid "Messages"
-msgstr ""
-"訊息"
+
 

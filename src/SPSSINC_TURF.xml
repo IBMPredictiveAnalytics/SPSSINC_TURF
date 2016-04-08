@@ -4,7 +4,7 @@
 <!--                                                                   -->
 <!-- IBM SPSS Products: Statistics Common                              -->
 <!--                                                                   -->
-<!-- (C) Copyright IBM Corp. 1989, 2012                                -->
+<!-- (C) Copyright IBM Corp. 1989, 2016                                -->
 <!--                                                                   -->
 <!-- US Government Users Restricted Rights - Use, duplication or       -->
 <!-- disclosure restricted by GSA ADP Schedule Contract with IBM       -->
@@ -15,6 +15,7 @@
 <Command xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extension-1.0.xsd" Name="SPSSINC TURF" Language="Python">
 	<Subcommand Name="" IsArbitrary="False" Occurrence="Optional">
 		<Parameter Name="VARIABLES" ParameterType="VariableNameList"/>
+		<Parameter Name="FORCE"  ParameterType="Integer"/>
 	</Subcommand>
 	<Subcommand Name="OPTIONS">
 		<Parameter Name="BESTN" ParameterType="Integer"/>
@@ -26,8 +27,16 @@
 		<Parameter Name="MAXSETS" ParameterType="Integer"/>
 		<Parameter Name="LOGFILE" ParameterType="OutputFile"/>
 		<Parameter Name="LOGFREQ" ParameterType="Integer"/>
+		<Parameter Name="SHOW" ParameterType="Keyword"/>
+		<Parameter Name="PLOT" ParameterType="Keyword"/>
 	</Subcommand>
-	<Subcommand Name = "IMPORTANCE" Occurrence="Optional">
+	<Subcommand Name="HEATS">
+		<Parameter Name="USEHEATS" ParameterType="Keyword"/>
+		<Parameter Name="HEATSIZE" ParameterType="Integer"/>
+		<Parameter Name="ADVANCE" ParameterType="Number"/>
+		<Parameter Name="SHOWHEATS" ParameterType="Keyword"/>
+	</Subcommand>
+	<Subcommand Name="IMPORTANCE" Occurrence="Optional">
 		<Parameter Name="IWEIGHTS" ParameterType="TokenList"/>
 		<Parameter Name="STRICT" ParameterType="Keyword"/>
 	</Subcommand>
