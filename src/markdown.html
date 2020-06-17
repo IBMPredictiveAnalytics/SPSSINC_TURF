@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>SPSSINC TURF Extension Command</title>
+
+<link rel="stylesheet" type="text/css" href="extsyntax.css" />
+
+
+
+
+
+</head>
+
+<body>
+<h1>SPSSINC TURF Extension Command</h1>
+
+<p>Calculate TURF values for specified variables.
+TURF is &ldquo;total unduplicated reach and frequency&rdquo;.</p>
+<div class="syntax">
+<p>SPSSINC TURF VARIABLES=<em>variables</em><sup>&#42;</sup><br/>
+FORCE=<em>number of variables to include in every bundle</em>
+</p>
+
+<p>/OPTIONS BESTN=<em>n</em><br/>
+MINTABLE=<em>m</em><br/>
+NUMBERTODISPLAY=<em>m</em><br/>
+THRESHOLD = <em>value</em><br/>
+CRITERIA = <em>values</em><br/>
+MAXSETS=<em>number</em><br/>
+REMOVALCYCLES=<em>n</em><br/>
+LOGFILE=&ldquo;<em>file</em>&rdquo;<br/>
+LOGFREQ=<em>value</em><br/>
+PLOT=YES<sup>&#42;&#42;</sup> or NO</p>
+
+<p>/HEATS USEHEATS=YES<sup>&#42;&#42;</sup> or NO<br/>
+HEATSIZE=<em>number</em><br/>
+ADVANCE=<em>number</em></p>
+
+<p>/IMPORTANCE IWEIGHTS=<em>varname wt varname wt &hellip;</em><br/>
+STRICT= YES<sup>&#42;&#42;</sup> or NO</p>
+
+<p>/HELP</p>
+
+<p><sup>&#42;</sup> Required<br/>
+<sup>&#42;&#42;</sup> Default</p>
+</div>
+<p>/HELP displays this help and does nothing else.</p>
+
+
+
+<pre class="example"><code>SPSSINC TURF VARIABLES=q1 q2 q3 q4 q5
+/OPTIONS BESTN=3 NUMBERTODISPLAY=10.
+</code></pre>
+
+<p><strong>VARIABLES</strong> lists the variables to analyze.  All the variables must be coded
+the same way, at least for the definition of positive response.</p>
+
+<p><strong>FORCE</strong> specifies the variables that must be included in every combination.
+The value is a number, n, indicating that the first n variables listed in VARIABLES are required.
+The default value is 0 indicating that no specific variables are required.  If FORCE=2 in the example above,
+q1 and q2 would always be included regardless of their effect on the reach.  FORCE cannot be combined
+with removal cycles.
+<p>
+
+<h2>OPTIONS</h2>
+
+<p><strong>BESTN</strong> specifies the maximum group size, i.e., the maximum number of 
+combinations of variables, that will be analyzed, including any forced variables.</p>
+
+<p><strong>MINTABLE</strong> can specify the minimum group size table to display.
+Separate tables
+will be displayed for each value from MINTABLE to BESTN.  The default value is 1.
+If variables are forced, the tables start with the number of forced variables by default.
+When running heats, only the last table is shown for each heat regardless
+of this setting.</p>
+
+<p><strong>NUMBERTODISPLAY</strong> indicates the maximum number of combinations to report
+in each table.</p>
+
+<p><strong>THRESHOLD</strong> can optionally specify a minimum percentage of positive responses
+required in order to analyze a variable.  If a variable has fewer than that, 
+it is discarded from the analysis except that forced variables are never discarded.
+Nonforced variables with no positive responses are always discarded.</p>
+
+<p><strong>CRITERIA</strong> optionally specifies one or more variable values that are considered a
+positive response.  By default, values of 1 are considered positive.</p>
+
+<p>Use <strong>REMOVALCYCLES</strong> to iterate the entire analysis by successively removing each
+best variable and repeating the analysis.  The top of the group 
+size 2 list identifies which variable combines best 
+with the top of the size 1 list, but iterating the analysis with removal cycles would show,
+for example, a table with the best single variables for cases that did not have a positive 
+response to the top of the size 1 list and so on.  The percentages would then be 
+calculated on the reduced samples.  By default, no removal cycles are carried out.
+REMOVALCYCLES cannot be used if there are forced variables.</p>
+
+<p><strong>REMOVALCYCLES</strong> applies only to the final round if using heats.</p>
+
+<p>If <strong>MAXSETS</strong> is specified, the analysis is not run if the number of set union 
+operations required exceeds it.  For heats, the limit applies separately
+for each heat.  The purpose of this parameter is just to
+prevent very long jobs from running, because TURF calculations can
+be very time consuming (but see heats).</p>
+
+<p>if a file specification is given in <strong>LOGFILE</strong>, an operations log will be written to that file.
+The contents, which are timestamped in seconds, report various stages in the calculation.
+For large problems, the time is dominated by the number of set operations required.
+A log entry is made every <strong>LOGFREQ</strong> set union operations, so you can
+extrapolate to the approximate completion time.  Entries are flushed to disk
+immediately, so you can watch the log as the job progresses.</p>
+
+<p>If using heats, the log file is overwritten for each heat and final, so
+it shows only the latest iteration. Intermediate tables appear in the Viewer
+at the end of each heat.</p>
+
+<p><strong>LOGFREQ</strong> is the frequency of logging completed set operations.  The default is 500000.</p>
+
+<p><strong>PLOT</strong>=YES or NO determines whether the reach and frequency by group size plot
+is displayed.  The plot is never displayed for heats until the final round.</p>
+
+<h2>HEATS</h2>
+
+<p>The HEATS subcommand controls how calculations are done and has a very
+large effect on the running time if the number of variables is large.
+Without using heats, with a large number of variables, 
+TURF can take many hours, even days,
+to complete.  Specify <strong>USEHEATS</strong>=YES to improve performance dramatically.  When
+using heats, variables are randomly divided into groups, and TURF
+is run on each group.  The winning <strong>ADVANCE</strong> number of variables are
+recorded for each heat, and a final heat is run using all the winning
+variables.  The result is an approximate solution.  In practice, it
+is usually very close to the exact solution.  Forced variables are always included in every
+heat and are not counted in the ADVANCE value.</p>
+
+<p><strong>HEATSIZE</strong> specifies the number of variables for each heat
+not counting any forced variables.
+If there would be only one heat, non-heat mode is used.  The default
+is usually 10 but may be adjusted by the procedure
+depending on the parameters of the problem.</p>
+
+<p><strong>ADVANCE</strong> specifies the number of winners to be retained from each heat for
+the final round not counting forced variables.</p>
+
+<p>If HEATSIZE or ADVANCE are omitted, these parameters are
+calculated for best performance.</p>
+
+<p>Removal cycles cannot be combined with heats.</p>
+
+<h2>IMPORTANCE</h2>
+
+<p>The optional IMPORTANCE subcommand provides importance weights for variables.
+By default, all variables have an importance weight of 1.  The weights are
+not used in searching for the solution, but weighted statistics are included
+in the output.</p>
+
+<p>The <strong>IWEIGHTS</strong> keyword is a list of variable names and weights.</p>
+
+<p>If <strong>STRICT</strong> is YES, every variable used must be listed with a weight.
+If STRICT is NO, a weight of 1 is assumed for any variable not listed.</p>
+
+<h3>Computational Notes</h3>
+
+<p>The computational burden of this calculation increases very rapidly with the
+number of variables and the value of BESTN unless heats are used.</p>
+
+<p>All data on positive responses for these calculations must be held in memory.</p>
+
+<p>If the dataset is weighted, only cases with positive weights are counted, and the 
+counts are sums of weights with no rounding or truncation.</p>
+
+<p>&copy; Copyright IBM Corp. 1989, 2016</p>
+
+</body>
+
+</html>
+
