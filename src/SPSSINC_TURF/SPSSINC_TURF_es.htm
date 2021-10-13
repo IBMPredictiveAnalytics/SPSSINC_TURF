@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Calcular TURF</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  -->
+  </style>
+</head>
+
+<body>
+  <h1>Calcular Alcance y frecuencia total sin duplicar (TURF)</h1>
+  <p>Este procedimiento   calcula los valores de TURF de un conjunto de variables de respuesta. TURF   difiere de las frecuencias simples en que incluye las respuestas solapadas.</p>
+  
+  <p>El alcance de una combinación de variables es el número de casos en que como mínimo una variable de la combinación tiene una respuesta positiva.  La frecuencia es el número total de respuestas positivas a la combinación.  El porcentaje del cálculo de las respuestas utiliza todas las respuestas positivas a cualquier variable de la tabla como denominador.</p>
+
+  <p><span class="runinhead">Variables que deben analizarse</span> Seleccione las variables que se van a analizar. Todas se deberían codificar   de la misma forma, al menos para respuestas positivas.</p>
+
+  <p><span class="runinhead">Combinaciones máximas de variables:</span>   Especifique el número máximo de combinaciones para el que calcular TURF. Por ejemplo, si especifica 3, se notificarán los mejores valores   para todas las variables de forma individual, para todas las combinaciones   de dos variables y para todas las combinaciones de tres.</p>
+
+  <p><span class="runinhead">Número de combinaciones que debe mostrarse</span> Determina el número máximo de filas en cada tabla. Las filas se ordenan en orden descendente de alcance,   desempatando por frecuencia. Sin embargo podría haber empates adicionales   con el último elemento de la tabla.</p>
+
+  <p><span class="runinhead">Porcentaje mínimo de respuestas positivas</span> Si hay menos de este porcentaje de respuestas positivas para una variable, se descarta del análisis. Las variables con cero respuestas positivas siempre   se descartan.  Este filtro no se aplica a las variables forzadas: siempre se incluyen.</p>
+
+  <p><span class="runinhead">Valores de respuestas positivas</span> De manera predeterminada, un valor de 1 define una respuesta positiva. Especifique uno   o más valores para definir respuestas positivas de forma diferente. Por   ejemplo, si los valores de respuesta se encuentran en una escala del 1 al 5, puede   elevarlos especificando 5 o 4 5. Incluya un espacio en blanco entre los   valores.</p>
+  
+  <p><span class="runinhead">Número de variables de análisis siempre requeridas</span>    El valor, n, indica que las n primeras variables enumeradas en el recuadro Variables que deben analizarse son necesarias y, por lo tanto, aparecerán en cada combinación de variables independientemente de su efecto sobre el alcance.  Si el valor es 0, no se fuerza ninguna variable.  Si el valor es positivo, no puede haber ningún ciclo de eliminación.</p>
+
+  <p><span class="runinhead">Veces que hay que eliminar la variable superior y repetir la ejecución</span> Especifique el número de veces que se debe eliminar la mejor variable y repetir el análisis para las demás   variables. Sólo se utilizarán los casos en que la mejor variable   no haya obtenido una respuesta positiva. El efecto es acumulativo,   de forma que dos ciclos repetirían el análisis una segunda vez   sin la mejor variable en la primera ronda y la mejor   variable en la segunda ronda. Sólo se utilizarían casos   donde ambas variables fueran negativas en la segunda ronda.</p>
+  
+  <p>Si se utilizan los puntos de calor, el ciclo de eliminación se aplica sólo en la última ronda.</p>
+  
+  <p><span class="runinhead">Gráfico de alcance y frecuencia</span> Marque esta casilla para generar un gráfico que muestre el mejor alcance y la mejor frecuencia de cada tamaño de grupo.</p>
+  
+  <p><span class="runinhead">Mostrar sólo resultados para la combinación máxima de variables</span> Marque esta casilla para mostrar sólo la tabla de la combinación máxima de variables.
+  Si no se marca, se muestran las tablas con las mejores combinaciones de cada tamaño hasta el número máximo de variables incluido.  Si se utilizan los puntos de calor, se muestra una tabla por punto de calor sin tener en cuenta este valor.</p>
+
+  <p><span class="runinhead">Límite de tamaño</span> El análisis TURF   puede requerir calcular un gran número de uniones de conjuntos y puede   tardar mucho tiempo en ejecutarse. Si especifica un límite, el análisis no se   llevará a cabo en caso de que vaya a sobrepasar ese límite.
+  El resultado del TURF incluye una sentencia sobre el número de uniones de conjuntos   necesarias. Puede definir el límite a 0 para ver el tamaño del problema   sin ejecutar el análisis. La información de tamaño aparece   en un objeto de registro del Visor.</p>
+  
+  <p>Si se utilizan puntos de calor, el tamaño se aplica a cada punto de calor y en la última ronda de forma independiente.</p>
+  
+  <h2>Puntos de calor</h2>
+  <p>A medida que crece el número de variables y el número de combinaciones, el tiempo de cálculo aumenta de forma significativa.  Puede utilizar los puntos de calor para buscar una solución aproximada pero normalmente precisa en un tiempo considerablemente menor.
+  </p>
+  
+  <p><span class="runinhead">Utilizar puntos de calor para problemas grandes</span> Si marca esta casilla, el procedimiento ejecutará puntos de calor en subconjuntos de variables elegidos de forma aleatoria con todas las variables incluidas en algún punto de calor, y los puntos de calor ganadores se incluirán en la última ronda.  Los parámetros Tamaño del punto de calor y Número de ganadores controlan el tamaño del punto de calor y el número de ganadores que pasan a la final.  Seleccione Automático para que el procedimiento establezca estos parámetros o seleccione Especificar para establecer estos valores o ambos valores.</p>
+  
+  <p>El tamaño del punto de calor y el número de valores de ganadores no deben incluir variables forzadas, puesto que se incluyen automáticamente en cada punto de calor.</p>
+  
+  <p>Para obtener un buen rendimiento, el valor del número de ganadores debe ser mucho más pequeño que el tamaño del punto de calor.  Es mejor equilibrar los valores de tamaño y de ganadores para que la ronda final no sea mucho más grande que el tamaño de las rondas preliminares.</p>
+  
+  <p>Si el tamaño del punto de calor es suficientemente grande como para incluir todas las variables en un punto de calor, se pasa por alto la ronda preliminar.</p>
+  
+  <p>Puesto que las variables se asignan aleatoriamente a estos puntos de calor, puede hacerse una idea de cómo las soluciones basadas en puntos de calor se comparan con la solución exacta al ejecutar este procedimiento varias veces y examinar el mejor alcance conseguido en cada uno o aumentar ligeramente el parámetro del número de ganadores.</p>
+
+  <h2>Ponderaciones de importancia</h2> En el análisis, se puede asignar ponderaciones de importancia,   que no deben confundirse con las ponderaciones de casos, a las variables.
+  No se utilizan para buscar el mejor empate, pero el resultado   incluye algunos estadísticos basados en ellas.
+
+  <p>El resultado incluye la media y la importancia total de las   respuestas positivas si se utilizan ponderaciones. En primer lugar, la media de las   ponderaciones de importancia de las respuestas positivas de una combinación de variables   determinada se calcula para cada caso que tenga al menos una   respuesta positiva. En el resultado se informa de la media   de estas medias. También se muestra la importancia total.</p>
+
+  <p><span class="runinhead">Comprobación de ponderaciones</span> Estos botones de selección determinan cómo se comprueba y utiliza la especificación de ponderación. Si se selecciona Todas las variables..., la especificación debe   enumerar todas las variables del análisis si se utilizan ponderaciones. Si   se selecciona Suponer ponderación..., a las variables no enumeradas se les   supone una ponderación de 1.</p>
+
+  <p><span class="runinhead">Especificaciones de ponderación</span> Especifique los nombres de variables y sus ponderaciones. Enumere cada uno de los nombres de variable seguido   de la ponderación de importancia de esa variable. Por ejemplo,<br>
+  <span class=".code">V1 2 V2 1.5</span><br>
+  asigna una ponderación de 2 a la variable V1 y 1.5 a V2. El símbolo decimal   debe ser siempre un punto.</p>
+
+  <h2>Notas de computación</h2>Los resultados de iterar el análisis   están relacionados con los resultados que se muestran en las tablas no iteradas   ya que aumenta el tamaño máximo de grupo. Sin embargo, puede haber   diferencias en algunas situaciones. Por ejemplo, el mejor grupo de dos variables   puede excluir la mejor variable. El análisis repetido   no recogerá esto, pero el método multigrupo sí.
+  No obstante, utilizar eliminar ciclos puede aclarar el efecto marginal de   añadir variables. Puede resultar de ayuda, al utilizar eliminar   ciclos, definir el tamaño máximo de grupo y el número de combinaciones que se deben mostrar   a 1.
+
+  <p>Los resultados porcentuales se basan en los casos incluidos, de forma que   la base diferirá en los dos métodos. Definir umbrales también puede añadir nuevas   diferencias, ya que se ve afectado por la base.</p>
+
+  <p>En los porcentajes de base para acceso cuenta todos los encuestados (después   de aplicar los filtros necesarios), se forma que un valor perdido puede contribuir   para la base. Si se tienen múltiples variables en un grupo, no hay ninguna otra forma obvia   para calcular la base.</p>
+
+  <p>La carga computacional de este cálculo crece muy   rápidamente con el número de variables y el valor del campo   <span class="screen">Combinaciones máximas de variables</span>. El   resultado incluye el número de cálculos de unión de conjuntos   requeridos.  El uso de puntos de calor es recomendable en caso de problemas grandes.</p>
+
+  <p>Todos los datos de las respuestas positivas se guardan en la memoria. Sólo   se requiere una lectura de datos.</p>
+
+  <h2>Características adicionales</h2>
+
+  <p>Este cuadro de diálogo genera la sintaxis del comando de extensión SPSSINC TURF. Para mostrar la ayuda de este comando, ejecute la siguiente sintaxis:</p>
+
+  <p class="codeblock">SPSSINC TURF /HELP.</p>
+  
+  <p>En la sintaxis, puede especificar un archivo de registro que registra el progreso durante la ejecución del procedimiento.  Esto puede ser útil en caso de trabajos de larga ejecución.</p>
+  
+  <p>La sintaxis proporciona controles adicionales sobre las tablas que se muestran.</p>
+
+  <h2>Requisitos</h2>
+
+  <p>Este cuadro de diálogo requiere el complemento de integración para Python y el comando de extensión SPSSINC TURF. Para IBM® SPSS® Statistics 19 y versiones posteriores, el complemento y el comando de extensión se instalan con Essentials for Python. Si desea más información, consulte Cómo obtener complementos de integración, en Sistema principal &gt; Preguntas más frecuentes en el sistema de ayuda de IBM SPSS Statistics.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">
+  © Copyright IBM Corp. 1989, 2016</p>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Calcular TURF</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  -->
+  </style>
+</head>
+
+<body>
+  <h1>Calcular o Total de Alcance e Frequência Não Duplicados (TURF)</h1>
+  <p>Este procedimento calcula os valores TURF para um conjunto de variáveis de resposta. O TURF é distinto das frequências simples porque leva em consideração a existência de respostas sobrepostas.</p>
+  
+  <p>O alcance de uma combinação de variáveis é o número de casos em que pelo menos uma variável na combinação tem uma resposta positiva.  A frequência é o número total de respostas positivas à combinação.  O cálculo da porcentagem de respostas usa todas as respostas positivas para qualquer variável na tabela como denominador.</p>
+
+  <p><span class="runinhead">Variáveis para Analisar</span> Selecione   as variáveis para analisar. Todas devem ser codificadas da mesma forma, pelo menos para respostas positivas.</p>
+
+  <p><span class="runinhead">Máximo de Combinações de Variáveis</span>   Especifique o número máximo de combinações para o qual calcular   o TURF. Se você especificar 3, por exemplo, serão gerados os melhores valores para todas as variáveis individuais, todas as combinações de duas variáveis e todas as combinações de três variáveis.</p>
+
+  <p><span class="runinhead">Número de Combinações para   Exibir</span> Isso determina o número máximo de linhas em   cada tabela. As linhas são ordenadas em ordem decrescente de alcance, com empates quebrados por frequência. No entanto, pode haver empates adicionais com o último item na tabela.</p>
+
+  <p><span class="runinhead">Porcentagem Mínima de Respostas   Positivas</span> Se houver menos do que essa porcentagem de   respostas positivas para uma variável, ela será descartada a partir da   análise. Variáveis com zero resposta positiva sempre são descartadas.  Esse filtro não se aplica a variáveis forçadas: elas estão sempre incluídas.</p>
+
+  <p><span class="runinhead">Valor(es) de Resposta Positiva</span> Por   padrão, um valo 1 define uma resposta positiva. Insira um ou mais valores para definir respostas positivas de maneira diferente. Por exemplo, se os valores de resposta estiverem em uma escala de 1 a 5, você poderia estabelecer os melhores resultados inserindo 5 ou 4 5. Insira um espaço entre os valores.</p>
+  
+  <p><span class="runinhead">Número de variáveis de análise sempre necessárias</span>    O valor, n, indica que as primeiras n variáveis listadas na caixa Variáveis para analisar são necessárias e, portanto, aparecerão em todas as combinações de variáveis, independentemente de seu efeito no alcance.  Se o valor for 0, nenhuma variável será forçada.  Se o valor for positivo, não poderá haver qualquer ciclo de remoção.</p>
+
+  <p><span class="runinhead">Vezes para Remover a Variável   Principal e Repetir a Execução</span> Insira o número de vezes em que   a melhor variável única deve ser removida e a análise repetida para   as variáveis restantes. Somente serão usados os casos em que a melhor variável única não obteve uma resposta positiva. O efeito é cumulativo, portanto, dois ciclos repetiriam a análise uma segunda vez sem a melhor variável no primeiro turno e a melhor variável no segundo turno. Só seriam usados casos que foram negativos em ambas as variáveis para o segundo turno.</p>
+  
+  <p>Se estiver usando baterias, o ciclo de remoção se aplica apenas às rodadas   finais</p>
+  
+  <p><span class="runinhead">Gráfico de alcance e frequência</span> Marque   essa  caixa para produzir um gráfico mostrando o melhor alcance e frequência para   cada tamanho de grupo.</p>
+  
+  <p><span class="runinhead">Mostrar apenas resultados para a combinação máxima de variáveis</span>   Marque essa caixa para mostrar apenas a tabela para a combinação máxima de variáveis.
+  Se estiver desmarcado, tabelas serão mostradas para as melhores combinações para até cada tamanho e   incluindo o número máximo de variáveis.  Se estiver usando baterias, uma tabela será   mostrada por bateria independentemente dessa configuração.</p>
+
+  <p><span class="runinhead">Limite de Tamanho</span> A análise do TURF pode   requerer o cálculo de um número surpreendentemente grande de uniões configuradas   e levar um tempo considerável para ser executada. Se você especificar um limite, e a análise exceder esse limite, ela não será realizada.
+  A saída TURF inclui uma declaração sobre o número necessário de uniões de conjuntos. Você pode configurar o limite como 0 para ver o tamanho do problema sem executar a análise. As informações relativas ao tamanho aparecem no objeto de log do Visualizador.</p>
+  
+  <p>Se baterias forem usadas, o tamanho se aplica a cada bateria e à rodada   final separadamente.</p>
+  
+  <h2>Baterias</h2>
+  <p>Conforme o número de variáveis e do número de combinações aumenta, o   tempo de cálculo aumenta drasticamente.  É possível usar baterias para   encontrar uma solução aproximada, mas geralmente precisa, em tempo significativamente menor.
+  </p>
+  
+  <p><span class="runinhead">Use baterias para grandes problemas</span> Se essa   caixa estiver marcada, o procedimento executará baterias em subconjuntos   escolhidos aleatoriamente das variáveis, com todas as variáveis incluídas em alguma   bateria e os vencedores de bateria serão incluídos   em uma rodada final.  O tamanho da bateria e o número de vencedores que   avançar para as finais são controlados pelos parâmetros de Tamanho   da Bateria e de Número de Vencedores.  Marque Automático para permitir que o   procedimento configure esses parâmetros ou marque Especificar para configurar   um valor ou ambos os valores.</p>
+  
+  <p>Os valores do tamanho da bateria e do número de vencedores não devem incluir variáveis forçadas, uma vez que são incluídos automaticamente em cada bateria.</p>
+  
+  <p>Para um bom desempenho, o número de configuração de vencedores deve   ser muito menor que o tamanho da bateria.  É melhor balancear   as configurações de tamanho e de vencedores de modo que a rodada final não   seja substancialmente maior que os tamanhos de rodada preliminares.</p>
+  
+  <p>Se o tamanho da bateria for grande o suficiente   para incluir todas as variáveis em uma bateria, a rodada preliminar   será ignorada.</p>
+  
+  <p>Como as variáveis são designadas aleatoriamente para baterias, você pode ter   uma ideia de como as soluções baseadas em bateria se comparam com a solução   exata, executando esse procedimento várias vezes e examinando   o melhor alcance relatado para cada ou aumentando levemente o   número do parâmetro de vencedores.</p>
+
+  <h2>Pesos de Importância</h2> Os pesos de importância, que não devem ser confundidos com as ponderações de caso, podem ser atribuídos a variáveis na análise.
+  Eles não devem ser usados para pesquisar o melhor alcance, mas as saídas incluem algumas estatísticas baseadas neles.
+
+  <p>A saída inclui a importância total e média das respostas positivas se os pesos forem usados. Primeiro, a média dos pesos de importância para as respostas positivas para uma combinação de variáveis em particular é calculada para cada caso que tenha pelo menos uma resposta positiva. A saída relata a média dessas médias. A importância total também é exibida.</p>
+
+  <p><span class="runinhead">Verificação de Ponderação</span> Esses botões   de rádio determinam como a especificação de ponderação é verificada e   usada. Se Todas as variáveis... for selecionada, a especificação deve listar todas as variáveis possíveis na análise se quaisquer pesos forem usados. Se Presumir peso... for selecionada, as variáveis não listadas são presumidas como tendo um peso de 1.</p>
+
+  <p><span class="runinhead">Especificações de Ponderação</span> Insira   nomes de variáveis e ponderações. Liste cada nome de variável seguido pelo peso de importância para a variável. Por exemplo:<br>
+  <span class=".code">V1 2 V2 1.5</span><br>
+  designa uma ponderação de 2 à variável V1 e 1.5 à V2. O símbolo decimal sempre deve ser um ponto.</p>
+
+  <h2>Observações computacionais</h2>Os resultados da iteração da análise estão relacionados aos resultados mostrados nas tabelas não iteradas, já que o tamanho máximo de grupo aumenta. No entanto, pode haver diferenças em algumas situações. Por exemplo, o grupo das melhores duas variáveis pode excluir a melhor variável única. A análise iterada não poderá escolher essa variável, mas o método de vários grupos o fará.
+  No entanto, o uso de ciclos de remoção pode diminuir o efeito marginal da adição de variáveis. Isso pode ser útil ao usar ciclos de remoção para configurar o tamanho máximo de grupo e o número de combinações a ser mostrada para 1.
+
+  <p>Os resultados percentuais são baseados nos casos incluídos, por isso, a base será diferente com as duas abordagens. A limiarização também pode introduzir diferenças, pois é afetada pela base.</p>
+
+  <p>A base para as porcentagens de alcance conta todos os respondentes (após qualquer filtragem em vigor), por isso, um valor omisso pode contribuir para a base. Com variáveis múltiplas em um grupo, não há outro modo óbvio de calcular a base.</p>
+
+  <p>O encargo computacional desse cálculo cresce rapidamente com o   número de variáveis e o valor de   <span class="screen">Máximo de Combinações de Variáveis</span>. A saída inclui o número de cálculos de união de conjuntos necessário.  Usar baterias é recomendado para grandes problemas.</p>
+
+  <p>Todos os dados sobre respostas positivas são retidos na memória. É necessária apenas uma passagem de dados.</p>
+
+  <h2>Recursos adicionais</h2>
+
+  <p>Esta caixa de diálogo gera sintaxe para o comando de extensão SPSSINC TURF. Para exibir ajuda para este comando, execute a seguinte sintaxe:</p>
+
+  <p class="codeblock">SPSSINC TURF /HELP.</p>
+  
+  <p>Na sintaxe é possível especificar um arquivo de log que registra   o progresso durante a execução do comando.  Isso pode ser útil   para tarefas muitos longas em execução.</p>
+  
+  <p>A sintaxe fornece controles adicionais sobre as tabelas que são exibidas.</p>
+
+  <h2>Requisitos</h2>
+
+  <p>Esta caixa de diálogo exige o plug-in de integração para Python e o comando de extensão SPSSINC TURF. Para IBM® SPSS® Statistics 19   e mais altas, o Plug-In e o comando de extensão são instalados   com os Essentials for Python. Para obter informações adicionais, consulte Como Obter Integration Plug-In, no Sistema Principal &gt; Perguntas mais Frequentes no sistema de ajuda do IBM SPSS Statistics Help.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">
+  © Copyright IBM Corp. 1989, 2016</p>
+</body>
+</html>

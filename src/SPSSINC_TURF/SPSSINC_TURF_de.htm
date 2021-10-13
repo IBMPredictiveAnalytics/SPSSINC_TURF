@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>TURF berechnen</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  -->
+  </style>
+</head>
+
+<body>
+  <h1>TURF-Werte berechnen</h1>
+  <p>Mit dieser Prozedur werden die TURF-Werte (TURF = Total Unduplicated Reach and Frequency) für eine Gruppe von Antwortvariablen berechnet. Im
+  Gegensatz zu einfachen Häufigkeiten berücksichtigt TURF sich überschneidende Antworten.
+
+  </p>
+  
+  <p>Die Reichweite für eine Variablenkombination ist die Anzahl der Fälle, in denen mindestens
+eine Variable in der Kombination eine positive Antwort aufweist. Die Häufigkeit ist die Gesamtzahl
+der positiven Antworten auf die Kombination. Bei der Berechnung des Prozentsatzes der Antworten
+werden alle positiven Antworten auf eine Variable in der Tabelle als Nenner verwendet.</p>
+
+  <p><span class="runinhead">Zu analysierende Variablen</span> Wählen Sie
+die zu analysierenden Variablen aus. Alle sollten auf dieselbe Weise codiert sein, zumindest für positive Antworten.</p>
+
+  <p><span class="runinhead">Maximale Anzahl an Variablenkombinationen</span>
+Geben Sie die maximale Anzahl an Kombinationen an, für die der
+TURF-Wert berechnet werden soll. Bei Eingabe des Werts 3 beispielsweise werden die besten Werte für alle Einzelvariablen, alle Kombinationen aus zwei Variablen und alle Kombinationen aus drei Variablen ausgegeben.</p>
+
+  <p><span class="runinhead">Anzahl der anzuzeigenden Kombinationen</span>
+Hiermit wird die maximale Anzahl an Zeilen in den
+einzelnen Tabellen festgelegt. Die Zeilen sind in absteigender Reihenfolge der Reichweite sortiert, wobei die Bindungen nach Häufigkeit aufgeschlüsselt sind. Es können jedoch noch weitere Bindungen mit dem letzten Element in der Tabelle vorliegen.</p>
+
+  <p><span class="runinhead">Mindestprozentsatz positiver Antworten</span> Wenn der Prozentsatz der positiven Antworten
+für eine Variable unter diesem Wert liegt, wird die Variable
+aus der Analyse ausgeschlossen. Variablen mit null positiven Antworten werden immer
+ausgeschlossen. Dieser Filter wird nicht auf Zwangsvariablen angewendet:
+sie werden immer einbezogen.</p>
+
+  <p><span class="runinhead">Positive(r) Antwortwert(e)</span>
+Standardmäßig werden positive Antworten durch den Wert 1 definiert. Geben Sie mindestens einen Wert ein, um eine andere Definition für positive Antworten festzulegen. Wenn die Antwortwerte beispielsweise auf einer Skala von 1 bis 5 liegen, können Sie den obersten Wert oder die obersten Werte als positive Antwort definieren, indem Sie "5" bzw. "4 5" eingeben. Trennen Sie die einzelnen Werte durch ein Leerzeichen.</p>
+  
+  <p><span class="runinhead">Anzahl der immer erforderlichen Analysevariablen:</span>
+Der Wert n gibt an, dass die ersten n Variablen, die im Feld 'Zu analysierende Variablen'
+aufgeführt sind, erforderlich sind und daher in jeder Variablenkombination erscheinen,
+unabhängig von ihren Auswirkungen auf die Reichweite. Wenn der Wert 0 ist, werden keine Variablen erzwungen.
+Wenn der Wert positiv ist, kann es keine Zyklen für das Entfernen geben.</p>
+
+  <p><span class="runinhead">Häufigkeit für Entfernen der obersten Variablen und Ausführungswiederholung</span>
+Geben Sie an, wie oft die beste
+Einzelvariable entfernt und die Analyse für die restlichen
+Variablen wiederholt werden soll. Es werden nur Fälle verwendet, bei denen die beste Einzelvariable keine positive Antwort aufwies. Die Wirkung ist kumulativ. Bei zwei Zyklen wird die Analyse also ein zweites Mal wiederholt, ohne die beste Variable im ersten Durchgang und ohne die beste Variable im zweiten Durchgang. Im zweiten Durchgang werden nur Fälle verwendet, die für beide Variablen negativ waren.</p>
+  
+  <p>Bei Verwendung von Heats kommt der Entfernungszyklus nur beim letzten
+Durchgang zur Anwendung.</p>
+  
+  <p><span class="runinhead">Diagramm für Reichweite und Häufigkeit</span> Wählen Sie
+dieses Feld aus, um ein Diagramm zu erstellen, das die beste Reichweite und Häufigkeit für
+jede Gruppengröße anzeigt.</p>
+  
+  <p><span class="runinhead">Nur Ergebnisse für maximale Variablenkombination anzeigen</span>
+Wählen Sie dieses Feld aus, wenn nur die Tabelle für die maximale Kombination von Variablen angezeigt werden soll.
+  Wenn es nicht ausgewählt wird, werden Tabellen für die besten Kombinationen jeder Größe bis zur und
+einschließlich der maximalen Anzahl von Variablen angezeigt.  Bei Verwendung von Heats wird (unabhängig von dieser Einstellung) eine Tabelle pro Heat angezeigt.</p>
+
+  <p><span class="runinhead">Größenbeschränkung</span> Da für die TURF-Analyse möglicherweise
+sehr viele Vereinigungsmengen berechnet werden müssen,
+kann die Ausführung längere Zeit in Anspruch nehmen. Wenn Sie eine Größenbeschränkung angeben, wird die Analyse nicht ausgeführt, wenn diese Beschränkung überschritten wird.
+  Die TURF-Ausgabe gibt die Anzahl der erforderlichen Vereinigungsmengen an. Sie können die Größenbeschränkung auf "0" setzen, um die problematische Größe anzuzeigen, ohne die Analyse auszuführen. Die Größeninformationen werden in einem Protokollobjekt im Viewer angezeigt.</p>
+  
+  <p>Bei Verwendung von Heats gilt die Größe für jeden Heat und den letzten
+Durchgang separat.</p>
+  
+  <h2>Heats</h2>
+  <p>Bei zunehmender Anzahl von Variablen und Kombinationen
+steigt die Berechnungszeit erheblich an.  Mit Heats lassen sich
+in weitaus kürzerer Zeit zwar nur näherungsweise berechnete, aber in der Regel korrekte Lösungen finden.
+  </p>
+  
+  <p><span class="runinhead">Bei großen Problemen Heats verwenden</span> Bei Auswahl dieses
+Felds führt die Prozedur Heats für zufällig ausgewählte
+Subsets der Variablen mit allen in einigen Heats enthaltenen
+Variablen aus. Die Heatgewinner werden in einen letzten Durchgang einbezogen.  Welche Heatgröße und Anzahl von Gewinnern in den letzten Durchgang aufrücken wird durch die Parameter 'Heatgröße' und 'Anzahl Gewinner' gesteuert.  Wählen Sie 'Automatisch' aus, um diese
+Parameter durch die Prozedur festlegen zu lassen oder wählen Sie 'Angeben' aus, um einen
+oder beide dieser Werte festzulegen.</p>
+  
+  <p>Die Heatgröße und die Zahl der Gewinnerwerte darf nicht in Zwangsvariablen beinhalten,
+da sie automatisch in jeden Heat einbezogen wird.</p>
+  
+  <p>Zur Sicherstellung einer guten Leistung sollte der Wert für die Einstellung 'Anzahl Gewinner'
+deutlich kleiner als der für die Heatgröße sein.  Optimalerweise sollte ein ausgewogenes Verhältnis zwischen der Einstellung für die Größe und für die Gewinner gefunden werden, damit der letzte Durchgang
+nicht wesentlich größer als die vorläufigen Durchgänge ist.</p>
+  
+  <p>Wenn die Heatgröße ausreichend groß ist,
+um alle Variablen in einem einzigen Heat aufnehmen zu können, wird der vorläufige Durchgang
+übersprungen.</p>
+  
+  <p>Da die Zuweisung von Variablen zu Heats zufällig erfolgt, können Sie
+einen Eindruck von auf Heats basierenden Lösungen im Vergleich zu exakten Lösungen erhalten, indem Sie diese Prozedur mehrmals ausführen und die jeweils aufgelistete beste Reichweite prüfen oder indem Sie den
+Parameter 'Anzahl Gewinner' leicht erhöhen.</p>
+
+  <h2>Wichtigkeitsgewichtungen</h2> Wichtigkeitsgewichtungen (nicht zu verwechseln mit Fallgewichtungen) können Variablen in der Analyse zugewiesen werden.
+  Sie werden zwar nicht zur Suche nach der besten Reichweite verwendet, doch die Ausgabe enthält einige Statistiken, die auf ihnen basieren.
+
+  <p>Die Ausgabe beinhaltet die mittlere Gewichtigkeit sowie Gesamtwichtigkeit positiver Antworten, wenn Gewichtungen verwendet werden. Zunächst wird der Durchschnitt der Wichtigkeitsgewichtungen für die positiven Antworten für eine bestimmte Variablenkombination für jeden Fall berechnet, der mindestens eine positive Antwort hat. In der Ausgabe wird das Mittel dieser Mittelwerte angegeben. Die Gesamtwichtigkeit wird ebenfalls angezeigt.</p>
+
+  <p><span class="runinhead">Gewichtungsprüfung</span> Diese Optionsfelder legen fest,
+wie die Gewichtungsspezifikation geprüft und verwendet wird. Wenn "Alle Variablen..." ausgewählt wird, muss die Angabe alle Variablen in der Analyse auflisten, wenn Gewichtungen verwendet werden. Wenn "Angenommene Gewichtung..." ausgewählt wird, wird für nicht aufgelistete Variablen eine Gewichtung von 1 angenommen.</p>
+
+  <p><span class="runinhead">Gewichtungsspezifikation</span> Geben Sie die Variablennamen und -gewichtungen ein. Listen Sie alle Variablennamen gefolgt von der Wichtigkeitsgewichtung für jede einzelne Variable auf. Beispiel:<br>
+  <span class=".code">V1 2 V2 1.5</span><br> beispielsweise weist Variable V1 eine Gewichtung von 2 und V2 eine Gewichtung von 1,5 zu. Als Dezimalzeichen muss immer ein Punkt verwendet werden.</p>
+
+  <h2>Hinweise zur Berechnung</h2>Die Ergebnisse der Analyseiteration beziehen sich auf die Ergebnisse, die in den nicht iterierten Tabellen als maximale Zunahme der Gruppengröße angezeigt werden. In bestimmten Situationen kann es jedoch Unterschiede geben. Beispielsweise ist es möglich, dass in der Gruppe der beiden besten Variablen die beste Einzelvariable nicht enthalten ist. Bei der iterierten Analyse kann dies nicht erfasst werden, bei der Methode mit mehreren Gruppen dagegen schon.
+  Mithilfe von Entfernungszyklen kann jedoch möglicherweise der Randeffekt der Hinzunahme von Variablen deutlicher werden. Bei der Verwendung von Entfernungszyklen kann es hilfreich sein, die maximale Gruppengröße und die Anzahl der anzuzeigenden Kombinationen auf "1" zu setzen.
+
+  <p>Die prozentualen Ergebnisse basieren auf den eingeschlossenen Fällen, sodass sich die Basis zwischen den beiden Ansätzen unterscheidet. Die Festlegung von Schwellenwerten kann ebenfalls zu Unterschieden führen, da sie von der Basis beeinflusst wird.</p>
+
+  <p>Bei der Basis für den Prozentsatz der Reichweite werden alle Befragten (nach einer etwaigen Filterung) berücksichtigt, sodass fehlende Werte zur Basis beitragen können. Wenn in einer Gruppe mehrere Variablen enthalten sind, gibt es keine andere naheliegende Methode zur Berechnung der Basis.</p>
+
+  <p>Der Rechenaufwand für diese Berechnung steigt mit der Anzahl der Variablen und dem unter <span class="screen">Maximale Anzahl an Variablenkombinationen</span> angegebenen Wert sehr schnell. Zur Ausgabe gehört auch die Anzahl der Vereinigungsmengen, die berechnet werden müssen.  Bei großen Problemen wird die Verwendung von Heats empfohlen.</p>
+
+  <p>Alle Daten zu positiven Antworten werden in den Arbeitsspeicher geladen. Es ist nur ein Datendurchlauf erforderlich.</p>
+
+  <h2>Weitere Funktionen</h2>
+
+  <p>In diesem Dialogfeld wird Syntax für den Erweiterungsbefehl "SPSSINC TURF" erzeugt. Führen Sie folgende Syntax aus, um Hilfe für diesen Befehl anzuzeigen:</p>
+
+  <p class="codeblock">SPSSINC TURF /HELP.</p>
+  
+  <p>In der Syntax können Sie eine Protokolldatei angeben,
+in der Fortschritt bei der Ausführung des Befehls aufgezeichnet wird.  Dies kann bei Jobs mit sehr langer Laufzeit hilfreich sein.</p>
+  
+  <p>Die Syntax bietet zusätzliche Steuerelemente für die angezeigten Tabellen.</p>
+
+  <h2>Anforderungen</h2>
+
+  <p>Für dieses Dialogfeld sind das Integrations Plug-in for Python und der Erweiterungsbefehl "SPSSINC TURF" erforderlich. Bei IBM® SPSS® Statistics 19 und höher werden das Plug-In und der Erweiterungsbefehl mit "Essentials for Python" installiert. Weitere Informationen finden Sie im Hilfesystem zu IBM SPSS Statistics unter "Core-System &gt; Häufig gestellte Fragen" im Thema "Beziehen von Integrations-Plug-ins".</p><br>
+  <hr>
+
+  <p style="font-size:80%;">
+  © Copyright IBM Corp. 1989, 2016</p>
+</body>
+</html>
