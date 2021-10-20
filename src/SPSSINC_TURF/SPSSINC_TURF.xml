@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><Extension debug="false" version="1.0" xmlns="http://spss.com/clementine/extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://spss.com/clementine/extensions http://xml.spss.com/clementine/extensions/CLEFSpecificationFile.xsd">
+  <ExtensionDetails copyright="Licensed Materials - Property of IBM.  IBM SPSS Products: Statistics Common (C) Copyright IBM Corp. 1989, 2016.  US Government Users Restricted Rights - Use, duplication or  disclosure restricted by GSA ADP Schedule Contract with IBM Corp." description="" id="SPSSINC_TURF" label="" provider="SPSS, Inc." providerTag="spss" version="1.0"/>
+  <Resources>
+    <Bundle id="bundle1" path="SPSSINC_TURF" type="properties"/>
+  </Resources>
+  <CommonObjects>
+    <Actions>
+      <Action id="SPSSINC_TURF_action" imagePath="IBMdialogicon.png" label="TURF Analysis" labelKey="SPSSINC_TURF_action.LABEL"/>
+    </Actions>
+  </CommonObjects>
+  <UserInterface>
+    <Controls>
+      <MenuItem action="SPSSINC_TURF_action" offset="4" previousId="" showIcon="true" spssMenu="Analyze.analyze_desc_stat"/>
+    </Controls>
+  </UserInterface>
+  <Node id="SPSSINC_TURF" label="TURF Analysis" labelKey="SPSSINC_TURF.LABEL" type="modelBuilder">
+    <Properties>
+      <Property addOns="[Python]" name="SPSSINC_TURF" syntax="SPSSINC TURF %%variables%%  %%force%%&#10;/OPTIONS %%bestn%% %%numbertodisplay%% %%threshold%% %%criteria%% %%plot%%&#10;%%removalcycles%% %%limitsize%% %%show%%&#10;/HEATS %%useheats%% %%heatsize%% %%winners%%&#10;/IMPORTANCE %%weightcheck%% %%Weightspec%%&#10;"/>
+      <Property description="false" name="SPSSINC_TURF_modal"/>
+      <Property description="" descriptionKey="source_vars_tooltip.LABEL" isList="true" label="Variables:" labelKey="source_vars.LABEL" name="source_vars" selectionPool="source_fields" syntax="%%ThisValue%%" valueType="field"/>
+      <Property description="" descriptionKey="variables_tooltip.LABEL" isList="true" isRequired="true" label="Variables to Analyze:" labelKey="variables.LABEL" name="variables" selectionPool="source_fields" syntax="VARIABLES = %%ThisValue%%" valueType="field"/>
+      <Property defaultValue="" description="Up to this many variables will be  analyzed as a combination" descriptionKey="bestn_tooltip.LABEL" isRequired="true" label="Maximum Variable Combinations:" labelKey="bestn.LABEL" min="1" name="bestn" syntax="BESTN = %%ThisValue%%" valueType="integer"/>
+      <Property defaultValue="" description="No more than this many rows will appear in each table" descriptionKey="numbertodisplay_tooltip.LABEL" isRequired="true" label="Number of Combinations to Display:" labelKey="numbertodisplay.LABEL" min="1" name="numbertodisplay" syntax="NUMBERTODISPLAY = %%ThisValue%%" valueType="integer"/>
+      <Property defaultValue="" description="Any variable with fewer positive responses will be discarded" descriptionKey="threshold_tooltip.LABEL" label="Minimum Percentage of Positive Responses:" labelKey="threshold.LABEL" max="100.000000" min="0.000000" name="threshold" syntax="THRESHOLD = %%ThisValue%%" valueType="double"/>
+      <Property defaultValue="1" description="Enter blank-separated list of values defining a positive response" descriptionKey="criteria_tooltip.LABEL" label="Positive Response Value(s):" labelKey="criteria.LABEL" name="criteria" syntax="CRITERIA = %%ThisValue%%" valueType="string"/>
+      <Property defaultValue="0" description="Enter the number of times to iterate the entire analysis by removing the top variable and repeating the analysis" descriptionKey="removalcycles_tooltip.LABEL" label="Times to Remove Top Variable and Repeat Run:" labelKey="removalcycles.LABEL" min="0" name="removalcycles" syntax="REMOVALCYCLES = %%ThisValue%%" valueType="integer"/>
+      <Property description="" descriptionKey="limits_tooltip.LABEL" label="Size Limit" labelKey="limits.LABEL" name="limits" syntax="%%ThisValue%%"/>
+      <Property defaultValue="true" description="If checked and the problem size exceeds the operation count, the analysis is not run" descriptionKey="item_13_tooltip.LABEL" label="Do not run if required set" labelKey="item_13.LABEL" name="item_13" syntax="%%ThisValue%%±" valueType="boolean"/>
+      <Property defaultValue="5000000" description="" descriptionKey="limitsize_tooltip.LABEL" isRequired="true" label="Operation count limit:" labelKey="limitsize.LABEL" min="0" name="limitsize" syntax="MAXSETS=%%ThisValue%%" valueType="integer"/>
+      <Property defaultValue="strictcheck" description="" descriptionKey="weightcheck_tooltip.LABEL" label="Weight Checking" labelKey="weightcheck.LABEL" name="weightcheck" syntax="%%ThisValue%%" valueType="enum">
+        <Enumeration>
+          <Enum description="If set, every variable selected in the main dialog must be listed here" descriptionKey="strictcheck_tooltip.LABEL" hasSubGroup="false" label="All variables must be listed below" labelKey="strictcheck.LABEL" mnemonic="A" mnemonicKey="strictcheck_mnemonic.VALUE" syntax="STRICT=YES" value="strictcheck"/>
+          <Enum description="If set, only a subset of variables need be listed" descriptionKey="loosecheck_tooltip.LABEL" hasSubGroup="false" label="Assume weight is 1 for unlisted variables" labelKey="loosecheck.LABEL" mnemonic="S" mnemonicKey="loosecheck_mnemonic.VALUE" syntax="STRICT=NO" value="loosecheck"/>
+        </Enumeration>
+      </Property>
+      <Property defaultValue="" description="" descriptionKey="Weightspec_tooltip.LABEL" label="Weight specifications" labelKey="Weightspec.LABEL" name="Weightspec" syntax="IWEIGHTS=%%ThisValue%%" valueType="string"/>
+      <Property defaultValue="item_32_a" description="" descriptionKey="heapparms_tooltip.LABEL" label="Heat Parameters" labelKey="heapparms.LABEL" name="heapparms" syntax="%%ThisValue%%" valueType="enum">
+        <Enumeration>
+          <Enum description="" descriptionKey="item_32_a_tooltip.LABEL" hasSubGroup="false" label="Automatic" labelKey="item_32_a.LABEL" value="item_32_a"/>
+          <Enum description="" descriptionKey="item_32_b_tooltip.LABEL" hasSubGroup="true" label="Specify" labelKey="item_32_b.LABEL" syntax="%%ThisValue%%" value="item_32_b"/>
+        </Enumeration>
+      </Property>
+      <Property defaultValue="18" description="Enter the number of variables for a heat" descriptionKey="heatsize_tooltip.LABEL" label="Heat Size:" labelKey="heatsize.LABEL" min="2" name="heatsize" syntax="HEATSIZE=%%ThisValue%%" valueType="integer"/>
+      <Property defaultValue="2" description="" descriptionKey="winners_tooltip.LABEL" label="Number of Winners:" labelKey="winners.LABEL" min="1" name="winners" syntax="ADVANCE=%%ThisValue%%" valueType="integer"/>
+      <Property defaultValue="true" description="" descriptionKey="useheats_tooltip.LABEL" label="Use heats for large problems" labelKey="useheats.LABEL" name="useheats" syntax="USEHEATS=YES±USEHEATS=NO" valueType="boolean"/>
+      <Property defaultValue="true" description="" descriptionKey="plot_tooltip.LABEL" label="Reach and frequency plot" labelKey="plot.LABEL" name="plot" syntax="PLOT=YES±PLOT=NO" valueType="boolean"/>
+      <Property defaultValue="false" description="When using heats, maximum for each heat is always shown" descriptionKey="show_tooltip.LABEL" label="Show only results for maximum variables combination" labelKey="show.LABEL" name="show" syntax="SHOW=FINAL±" valueType="boolean"/>
+      <Property defaultValue="0" description="The first n variables listed above will be forced into every combination" descriptionKey="force_tooltip.LABEL" label="Number of Analyze Variables Always Required:" labelKey="force.LABEL" min="0" name="force" syntax="FORCE=%%ThisValue%%" valueType="integer"/>
+    </Properties>
+    <SelectionPool id="source_fields" type="fields"/>
+    <UserInterface>
+      <Tabs>
+        <Tab helpLink="SPSSINC_TURF.htm">
+          <PropertiesPanel>
+            <SourceFieldsBrowser copyFields="false" mnemonic="V" mnemonicKey="source_vars_mnemonic.VALUE" property="source_vars" selectionPool="source_fields" storage="[real integer date time string]">
+              <Layout columnWeight="1.0" fill="both" gridColumn="0" gridRow="0" gridWidth="1" rowWeight="1.0"/>
+            </SourceFieldsBrowser>
+            <MultiFieldChooserControl mnemonic="A" mnemonicKey="variables_mnemonic.VALUE" property="variables" storage="[real integer date time string]">
+              <Layout columnWeight="1.0" fill="both" gridColumn="2" gridRow="0" gridWidth="1" rowWeight="1.0"/>
+            </MultiFieldChooserControl>
+            <TextBoxControl mnemonic="M" mnemonicKey="bestn_mnemonic.VALUE" property="bestn">
+              <Layout columnWeight="1.0" fill="horizontal" gridColumn="2" gridRow="1" gridWidth="1" rowWeight="0.0"/>
+            </TextBoxControl>
+            <TextBoxControl mnemonic="N" mnemonicKey="numbertodisplay_mnemonic.VALUE" property="numbertodisplay">
+              <Layout columnWeight="1.0" fill="horizontal" gridColumn="2" gridRow="2" gridWidth="1" rowWeight="0.0"/>
+            </TextBoxControl>
+            <TextBoxControl mnemonic="C" mnemonicKey="threshold_mnemonic.VALUE" property="threshold">
+              <Layout columnWeight="1.0" fill="horizontal" gridColumn="2" gridRow="3" gridWidth="1" rowWeight="0.0"/>
+            </TextBoxControl>
+            <TextBoxControl mnemonic="T" mnemonicKey="criteria_mnemonic.VALUE" property="criteria">
+              <Layout columnWeight="1.0" fill="horizontal" gridColumn="2" gridRow="4" gridWidth="1" rowWeight="0.0"/>
+            </TextBoxControl>
+            <TextBoxControl mnemonic="U" mnemonicKey="removalcycles_mnemonic.VALUE" property="removalcycles">
+              <Layout columnWeight="1.0" fill="horizontal" gridColumn="2" gridRow="6" gridWidth="1" rowWeight="0.0"/>
+            </TextBoxControl>
+            <PropertiesPanel id="limits" label="Size Limit" labelKey="limits.LABEL">
+              <Layout columnWeight="1.0" fill="both" gridColumn="0" gridRow="1" gridWidth="1" rowWeight="1.0"/>
+              <CheckBoxControl labelAbove="true" mnemonic="D" mnemonicKey="item_13_mnemonic.VALUE" property="item_13">
+                <Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="0" gridWidth="1" rowWeight="0.0"/>
+              </CheckBoxControl>
+              <TextBoxControl mnemonic="O" mnemonicKey="limitsize_mnemonic.VALUE" property="limitsize">
+                <Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="1" gridWidth="1" leftIndent="8" rowWeight="1.0"/>
+              </TextBoxControl>
+            </PropertiesPanel>
+            <PropertiesSubPanel buttonDescription="Use the subdialog to specify importance weights for variables" buttonDescriptionKey="weights_tooltip.LABEL" buttonLabel="Weights..." buttonLabelKey="weights.LABEL" dialogTitle="Importance Weights" dialogTitleKey="Importance.TITLE" helpLink="" mnemonic="W" mnemonicKey="weights_mnemonic.VALUE">
+              <Layout columnWeight="0.0" fill="none" gridColumn="3" gridRow="0" gridWidth="1" rowWeight="0.0"/>
+              <PropertiesPanel>
+                <StaticText text="Use this dialog to specify importance weights for the variables." textKey="item_19.LABEL">
+                  <Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="0" gridWidth="1" rowWeight="0.0"/>
+                </StaticText>
+                <RadioButtonGroupControl property="weightcheck" rows="2" useSubPanel="false">
+                  <Layout columnWeight="1.0" fill="both" gridColumn="0" gridRow="1" gridWidth="1" rowWeight="1.0"/>
+                  <RadioButton property="strictcheck"/>
+                  <RadioButton property="loosecheck"/>
+                </RadioButtonGroupControl>
+                <TextBoxControl mnemonic="W" mnemonicKey="Weightspec_mnemonic.VALUE" property="Weightspec">
+                  <Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="2" gridWidth="1" rowWeight="0.0"/>
+                </TextBoxControl>
+                <StaticText text="List pairs of variable name and weight separated by a blank" textKey="item_27.LABEL">
+                  <Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="3" gridWidth="1" rowWeight="0.0"/>
+                </StaticText>
+              </PropertiesPanel>
+            </PropertiesSubPanel>
+            <PropertiesSubPanel buttonLabel="Heats..." buttonLabelKey="heats.LABEL" dialogTitle="Heats" dialogTitleKey="heatsdlg.TITLE" helpLink="" mnemonic="H" mnemonicKey="heats_mnemonic.VALUE">
+              <Layout columnWeight="0.0" fill="none" gridColumn="3" gridRow="1" gridWidth="1" rowWeight="0.0"/>
+              <PropertiesPanel>
+                <StaticText text="The computation time grows rapidly as the number of variables and combinations increase.&#10;Heats improve the speed but give an approximate answer" textKey="item_31.LABEL">
+                  <Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="0" gridWidth="1" rowWeight="0.0"/>
+                </StaticText>
+                <RadioButtonGroupControl property="heapparms" rows="2" useSubPanel="false">
+                  <Layout columnWeight="1.0" fill="both" gridColumn="0" gridRow="2" gridWidth="1" rowWeight="1.0"/>
+                  <RadioButton property="item_32_a"/>
+                  <RadioButton property="item_32_b">
+                    <TextBoxControl mnemonic="E" mnemonicKey="heatsize_mnemonic.VALUE" property="heatsize">
+                      <Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="0" gridWidth="1" leftIndent="16" rowWeight="0.0"/>
+                    </TextBoxControl>
+                    <TextBoxControl property="winners">
+                      <Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="1" gridWidth="1" leftIndent="16" rowWeight="1.0"/>
+                    </TextBoxControl>
+                  </RadioButton>
+                </RadioButtonGroupControl>
+                <CheckBoxControl property="useheats">
+                  <Layout columnWeight="1.0" fill="none" gridColumn="0" gridRow="1" gridWidth="1" rowWeight="0.0"/>
+                </CheckBoxControl>
+              </PropertiesPanel>
+            </PropertiesSubPanel>
+            <CheckBoxControl mnemonic="F" mnemonicKey="plot_mnemonic.VALUE" property="plot">
+              <Layout columnWeight="1.0" fill="none" gridColumn="2" gridRow="7" gridWidth="1" rowWeight="0.0"/>
+            </CheckBoxControl>
+            <CheckBoxControl mnemonic="H" mnemonicKey="show_mnemonic.VALUE" property="show">
+              <Layout columnWeight="1.0" fill="none" gridColumn="2" gridRow="8" gridWidth="1" rowWeight="0.0"/>
+            </CheckBoxControl>
+            <TextBoxControl mnemonic="Z" mnemonicKey="force_mnemonic.VALUE" property="force">
+              <Layout columnWeight="1.0" fill="horizontal" gridColumn="2" gridRow="5" gridWidth="1" rowWeight="0.0"/>
+            </TextBoxControl>
+            <StaticText text="This dialog was created using a later version of IBM SPSS Statistics\nand certain features may not function as intended." textKey="v17_warning.LABEL">
+              <Layout columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="2" gridWidth="1" rowWeight="1.0"/>
+            </StaticText>
+          </PropertiesPanel>
+        </Tab>
+      </Tabs>
+    </UserInterface>
+  </Node>
+</Extension>

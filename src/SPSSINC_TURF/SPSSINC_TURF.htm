@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Calculate TURF</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  -->
+  </style>
+</head>
+
+<body>
+  <h1>Calculate Total Unduplicated Reach and Frequency (TURF)</h1>
+  <p>This procedure
+  calculates the TURF values for a set of response variables. TURF
+  differs from simple frequencies by accounting for overlapping
+  responses.</p>
+  
+  <p>The reach for a combination of variables is the number of cases 
+  where at least one variable
+  in the combination has a positive response.  The frequency is the
+  total number of positive responses to the combination.  The Pct of
+  Responses calculation uses all the positive responses to any variable in the
+  table as the denominator.</p>
+
+  <p><span class="runinhead">Variables to Analyze</span> Select
+  the variables to analyze. All should be coded the same way, at
+  least for positive responses.</p>
+
+  <p><span class="runinhead">Maximum Variable Combinations</span>
+  Specify the maximum number of combinations for which to calculate
+  the TURF. If you specify 3, for example, best values will be
+  reported for all individual variables, all combinations of two
+  variables, and all combinations of three.</p>
+
+  <p><span class="runinhead">Number of Combinations to
+  Display</span> This determines the maximum number of rows in
+  each table. The rows are sorted in descending order of reach,
+  with ties broken by frequency. However, there could be additional
+  ties with the last item in the table.</p>
+
+  <p><span class="runinhead">Minimum Percentage of Positive
+  Responses</span> If there are fewer than this percentage of
+  positive responses for a variable, it is discarded from the
+  analysis. Variables with zero positive responses are always
+  discarded.  This filter is not applied to forced variables:
+  they are always included.</p>
+
+  <p><span class="runinhead">Positive Response Value(s)</span> By
+  default, a value of 1 defines a positive response. Enter one or
+  more values to define positive responses differently. For
+  example, if response values are on a scale of 1 to 5, you could
+  top box these by entering 5 or 4 5. Put a space between
+  values.</p>
+  
+  <p><span class="runinhead">Number of Analyze Variables Always Required</span> 
+  The value, n, indicates the the first n variables listed in the Variables to Analyze
+  box are required and will thus appear in every combination of variables
+  regardless of their effect on the reach.  If
+  the value is 0, no variables are forced.  If the value is positive, there cannot
+  be any removal cycles.</p>
+
+  <p><span class="runinhead">Times to Remove Top
+  Variable and Repeat Run</span> Enter the number of times the best
+  single variable should be removed and the analysis repeated for
+  the remaining variables. Only the cases where the best single
+  variable did not have a positive response are used. The effect is
+  cumulative, so two cycles would repeat the analysis a second time
+  without the best variable in the first round and the best
+  variable in the second round. It would only use cases that were
+  negative on both variables for the second round.</p>
+  
+  <p>If using heats, the remove cycle applies only to the finals
+  round</p>
+  
+  <p><span class="runinhead">Reach and frequency plot</span> Check
+  this box to produce a plot showing the best reach and frequency for
+  each group size.</p>
+  
+  <p><span class="runinhead">Show only results for maximum variables combination</span>
+  Check this box to show only the table for the maximum combination of variables.
+  If unchecked, tables are shown for the best combinations for each size up to and
+  including the maximum number of variables.  If using heats, one table is
+  shown per heat regardless of this setting.</p>
+
+  <p><span class="runinhead">Size Limit</span> TURF analysis can
+  require calculating a surprisingly large number of set unions and
+  take considerable time to run. If you specify a limit, the
+  analysis will not be carried out if it would exceed this limit.
+  The TURF output includes a statement of the number of set unions
+  that are required. You can set the limit to 0 to see the problem
+  size without running the analysis. The size information appears
+  in a Viewer log object.</p>
+  
+  <p>If heats are used, the size applies to each heat and the final
+  round separately.</p>
+  
+  <h2>Heats</h2>
+  <p>As the number of variables and number of combinations grows, the
+  computation time increases dramatically.  You can use heats to
+  find an approximate but usually accurate solution in dramatically less time.
+  </p>
+  
+  <p><span class="runinhead">Use heats for large problems</span> If this
+  box is checked, the procedure will run heats on randomly chosen
+  subsets of the variables with all variables included in some 
+  heat, and the heat winners will be included
+  in a final round.  The heat size and number of winners that
+  advance to the finals are controlled by the Heat Size and
+  Number of Winners parameters.  Check Automatic to let the
+  procedure set these parameters, or check Specify to set on
+  or both of these values.</p>
+  
+  <p>The heat size and number of winners values should not
+  include forced variables, since they are automatically included
+  in every heat.</p>
+  
+  <p>For good performance, the number of winners setting should
+  be much smaller than the heat size.  It is best to balance
+  the size and winners settings so that the final round is
+  not substantially larger than the preliminary round sizes.</p>
+  
+  <p>If the heat size is large enough
+  to include all the variables in one heat, the preliminary round
+  is skipped.</p>
+  
+  <p>Since variables are randomly assigned to heats, you can get
+  an idea of how the heat-based solutions compare with the exact
+  solution by running this procedure multiple times and examining
+  the best reach reported for each or by slightly increasing the
+  number of winners parameter.</p>
+
+  <h2>Importance Weights</h2> Importance weights, not to be confused
+  with case weights, can be assigned to variables in the analysis.
+  They are not used in searching for the best reach, but the output
+  includes some statistics based on them.
+
+  <p>The output includes the mean and total importance of positive
+  responses if weights are used. First, the average of the
+  importance weights for the positive responses for a particular
+  variable combination is calculated for each case that has at
+  least one positive response. The output reports the mean of those
+  means. The total importance is also displayed.</p>
+
+  <p><span class="runinhead">Weight Checking</span> These radio
+  buttons determine how the weight specification is checked and
+  used. If All variables... is selected, the specification must
+  list every variable in the analysis if any weights are used. If
+  Assume weight... is selected, variables not listed are assumed to
+  have a weight of 1.</p>
+
+  <p><span class="runinhead">Weight specifications</span> Enter
+  variable names and weights. List each variable name followed by
+  the importance weight for that variable. For example,<br>
+  <span class=".code">V1 2 V2 1.5</span><br>
+  assigns a weight of 2 to variable V1 and 1.5 to V2. The decimal
+  symbol must always be a period.</p>
+
+  <h2>Computational Notes</h2>The results of iterating the analysis
+  are related to the results shown in the non-iterated tables as
+  the maximum group size increases. There can be differences,
+  however, in some situations. For example, the best two-variable
+  group might exclude the best single variable. The iterated
+  analysis cannot pick this up, but the multi-group method will.
+  Using remove cycles, however, may make the marginal effect of
+  adding variables clearer. It may be helpful when using remove
+  cycles to set the maximum group size and number of combinations
+  to show to 1.
+
+  <p>The percentage results are based on the cases included, so the
+  base will differ with the two approaches. Thresholding can also
+  introduce differences as it is affected by the base.</p>
+
+  <p>The base for reach percentages counts all respondents (after
+  any filtering in effect), so a missing value can contribute to
+  the base. With multiple variables in a group, there is no obvious
+  other way to compute the base.</p>
+
+  <p>The computational burden of this calculation grows very
+  rapidly with the number of variables and the value of
+  <span class="screen">Maximum Variable Combinations</span>. The
+  output includes the number of set union calculations
+  required.  Using heats is recommended for large problems.</p>
+
+  <p>All data on positive responses is held in memory. Only
+  one data pass is required.</p>
+
+  <h2>Additional Features</h2>
+
+  <p>This dialog generates syntax for the SPSSINC TURF extension
+  command. To display help for this command, run the following
+  syntax:</p>
+
+  <p class="codeblock">SPSSINC TURF /HELP.</p>
+  
+  <p>In syntax you can specify a log file that records
+  progress during execution of the command.  This can be helpful
+  for very long running jobs.</p>
+  
+  <p>Syntax provides additional controls over the tables that are displayed.</p>
+
+  <h2>Requirements</h2>
+
+  <p>This dialog requires the Integration Plug-In for Python and
+  the SPSSINC TURF extension command. For IBM® SPSS® Statistics 19
+  and higher, the Plug-In and the extension command are installed
+  with the Essentials for Python. For more information, see
+  How to Get Integration Plug-Ins, under Core System &gt;
+  Frequently Asked Questions in the IBM SPSS Statistics Help
+  system.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">
+  © Copyright IBM Corp. 1989, 2016</p>
+</body>
+</html>

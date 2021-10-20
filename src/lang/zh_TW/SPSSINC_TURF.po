@@ -1,249 +1,154 @@
-#/***********************************************************************
-# * Licensed Materials - Property of IBM 
-# *
-# * IBM SPSS Products: Statistics Common
-# *
-# * (C) Copyright IBM Corp. 1989, 2014
-# *
-# * US Government Users Restricted Rights - Use, duplication or disclosure
-# * restricted by GSA ADP Schedule Contract with IBM Corp. 
-# ************************************************************************/
-
-# NLS_ENCODING=UTF-8
-# IBMUPYTH
-
-
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR ORGANIZATION
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Translations template for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-07-16 10:45+China Standard Time\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-10-11 00:54-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Generated-By: pygettext.py 1.5\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Globalization Pipeline\n"
 
-
-#: SPSSINC_TURF.py:63
 msgid "TURF Heat Parameters"
-msgstr ""
-"TURF 熱圖參數"
+msgstr "TURF 熱圖參數"
 
-#: SPSSINC_TURF.py:65
 msgid "Sizes are approximate and do not account for any threshold"
-msgstr ""
-"大小為大約值且未考慮任何臨界值"
+msgstr "大小為大約值且未考慮任何臨界值"
 
-#: SPSSINC_TURF.py:67
 msgid "Removal cycles apply only to the final round with heats"
-msgstr ""
-"移除循環僅適用於具有熱圖的最終回合"
+msgstr "移除循環僅適用於具有熱圖的最終回合"
 
-#: SPSSINC_TURF.py:69
 msgid "Settings"
-msgstr ""
-"設定"
+msgstr "設定"
 
-#: SPSSINC_TURF.py:70
 msgid "Final Run Size"
-msgstr ""
-"最終執行大小"
+msgstr "最終執行大小"
 
-#: SPSSINC_TURF.py:70
 msgid "Heat Size"
-msgstr ""
-"熱圖大小"
+msgstr "熱圖大小"
 
-#: SPSSINC_TURF.py:70
 msgid "Number of Input Variables"
-msgstr ""
-"輸入變數的數目"
+msgstr "輸入變數的數目"
 
-#: SPSSINC_TURF.py:70
 msgid "Number to Advance"
-msgstr ""
-"要前移的數目"
+msgstr "要前移的數目"
 
-#: SPSSINC_TURF.py:85
-msgid "Heat %s stopped.  All variables have a positive count below the specified threshold.  Variables:"
-msgstr ""
-"熱圖 %s 已停止。所有變數的正向計數都低於指定的臨界值。變數："
+msgid ""
+"Heat %s stopped.  All variables have a positive count below the specified "
+"threshold.  Variables:"
+msgstr "熱圖 %s 已停止。所有變數的正向計數都低於指定的臨界值。變數："
 
-#: SPSSINC_TURF.py:102
 msgid "No usable variables were found"
-msgstr ""
-"找不到可用的變數"
+msgstr "找不到可用的變數"
 
-#: SPSSINC_TURF.py:206
 msgid "Information"
-msgstr ""
-"資訊"
+msgstr "資訊"
 
-#: SPSSINC_TURF.py:207
 msgid "Count"
-msgstr ""
-"計數"
+msgstr "計數"
 
-#: SPSSINC_TURF.py:209
 msgid "Threshold value must be between 0 and 100"
-msgstr ""
-"臨界值必須介於 0 與 100 之間"
+msgstr "臨界值必須介於 0 與 100 之間"
 
-#: SPSSINC_TURF.py:213
 msgid "Invalid value for the minimum for the Maximum Group Size tables"
-msgstr ""
-"無效的「群組大小上限」表格最小值"
+msgstr "無效的「群組大小上限」表格最小值"
 
-#: SPSSINC_TURF.py:225
 msgid "TURF analysis"
-msgstr ""
-"TURF 分析"
+msgstr "TURF 分析"
 
-#: SPSSINC_TURF.py:295
-msgid "Analysis stopped.  All variables have a positive count below the threshold of %s positive responses."
-msgstr ""
-"分析已停止。所有變數的正向計數都低於 %s 正向回應的臨界值。"
+msgid ""
+"Analysis stopped.  All variables have a positive count below the threshold of "
+"%s positive responses."
+msgstr "分析已停止。所有變數的正向計數都低於 %s 正向回應的臨界值。"
 
-#: SPSSINC_TURF.py:300
 msgid "Set unions to be calculated"
-msgstr ""
-"要計算的集合聯集"
+msgstr "要計算的集合聯集"
 
-#: SPSSINC_TURF.py:304
-msgid "Analysis stopped because the required set union operations would exceed the specified limit"
-msgstr ""
-"因為所需的集合聯集作業可能超出指定的限制，所以分析已停止"
+msgid ""
+"Analysis stopped because the required set union operations would exceed the "
+"specified limit"
+msgstr "因為所需的集合聯集作業可能超出指定的限制，所以分析已停止"
 
-#: SPSSINC_TURF.py:329
 msgid "Final"
-msgstr ""
-"最終"
+msgstr "最終"
 
-#: SPSSINC_TURF.py:330
 msgid "Heat: %s.  "
-msgstr ""
-"熱圖：%s。"
+msgstr "熱圖：%s。"
 
-#: SPSSINC_TURF.py:334
 msgid "Maximum Group Size: %s.  Reach and Frequency."
-msgstr ""
-"群組大小上限：%s。範圍和次數。"
+msgstr "群組大小上限：%s。範圍和次數。"
 
-#: SPSSINC_TURF.py:336 SPSSINC_TURF.py:378 SPSSINC_TURF.py:568
 msgid "Cycle: %s"
-msgstr ""
-"循環：%s"
+msgstr "循環：%s"
 
-#: SPSSINC_TURF.py:337
 msgid "Variables: "
-msgstr ""
-"變數："
+msgstr "變數："
 
-#: SPSSINC_TURF.py:338 SPSSINC_TURF.py:379
 msgid "Variables"
-msgstr ""
-"變數"
+msgstr "變數"
 
-#: SPSSINC_TURF.py:339 SPSSINC_TURF.py:380
 msgid "Statistics"
-msgstr ""
-"統計資料"
+msgstr "統計資料"
 
-#: SPSSINC_TURF.py:340 SPSSINC_TURF.py:381
 msgid "Reach"
-msgstr ""
-"範圍"
+msgstr "範圍"
 
-#: SPSSINC_TURF.py:341 SPSSINC_TURF.py:382 SPSSINC_TURF.py:521
 msgid "Pct of Cases"
-msgstr ""
-"觀察值百分比"
+msgstr "觀察值百分比"
 
-#: SPSSINC_TURF.py:342 SPSSINC_TURF.py:383
 msgid "Frequency"
-msgstr ""
-"次數分配表"
+msgstr "次數分配表"
 
-#: SPSSINC_TURF.py:343 SPSSINC_TURF.py:384 SPSSINC_TURF.py:522
 msgid "Pct of Responses"
-msgstr ""
-"回應百分比"
+msgstr "回應百分比"
 
-#: SPSSINC_TURF.py:345
 msgid "Mean Importance of Positive Responses"
-msgstr ""
-"正向回應平均數重要性"
+msgstr "正向回應平均數重要性"
 
-#: SPSSINC_TURF.py:346
 msgid "Total Importance of Positive Responses"
-msgstr ""
-"正向回應總計重要性"
+msgstr "正向回應總計重要性"
 
-#: SPSSINC_TURF.py:369
 msgid "Sets of variables analyzed (unions plus one-variable sets)"
-msgstr ""
-"已分析的變數集合（聯合加上單一變數集合）"
+msgstr "已分析的變數集合（聯合加上單一變數集合）"
 
-#: SPSSINC_TURF.py:377
 msgid "Best Reach and Frequency by Group Size"
-msgstr ""
-"根據群組大小的最佳範圍和次數"
+msgstr "根據群組大小的最佳範圍和次數"
 
-#: SPSSINC_TURF.py:381 SPSSINC_TURF.py:518
 msgid "Group Size"
-msgstr ""
-"群組大小"
+msgstr "群組大小"
 
-#: SPSSINC_TURF.py:427
 msgid "An importance weight is missing or not numeric.  Variable: %s"
-msgstr ""
-"重要性加權遺漏或不為數值。變數：%s"
+msgstr "重要性加權遺漏或不為數值。變數：%s"
 
-#: SPSSINC_TURF.py:429
-msgid "An importance weight was specified for a variable not in the analysis: %s"
-msgstr ""
-"所指定的變數重要性加權不在分析中：%s"
+msgid ""
+"An importance weight was specified for a variable not in the analysis: %s"
+msgstr "所指定的變數重要性加權不在分析中：%s"
 
-#: SPSSINC_TURF.py:432
 msgid "Some variables were not assigned an importance weight: %s"
-msgstr ""
-"部分變數未指派重要性加權：%s"
+msgstr "部分變數未指派重要性加權：%s"
 
-#: SPSSINC_TURF.py:477 SPSSINC_TURF.py:486
 msgid "Importance Weights"
-msgstr ""
-"重要性加權"
+msgstr "重要性加權"
 
-#: SPSSINC_TURF.py:485
 msgid "Variable"
-msgstr ""
-"變數"
+msgstr "變數"
 
-#: SPSSINC_TURF.py:519
 msgid "Percentage"
-msgstr ""
-"百分比"
+msgstr "百分比"
 
-#: SPSSINC_TURF.py:520
 msgid "Reach and Frequency by Group Size"
-msgstr ""
-"根據群組大小的範圍和次數"
+msgstr "根據群組大小的範圍和次數"
 
-#: SPSSINC_TURF.py:986
 msgid "Messages"
-msgstr ""
-"訊息"
+msgstr "訊息"
 
-#: SPSSINC_TURF.py:1101
 msgid "---"
-msgstr ""
-"---"
-
-
-
+msgstr "---"

@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Calculer les valeurs TURF</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  -->
+  </style>
+</head>
+
+<body>
+  <h1>Calculer la portée et la fréquence non dupliquées totales (TURF - Total Unduplicated Reach and Frequency)</h1>
+  <p>Cette procédure calcule les valeurs TURF pour un ensemble de variables de réponse. L'analyse TURF diffère des fréquences simples dans la mesure où elle tient compte des réponses qui se chevauchent.</p>
+  
+  <p>La portée d'une combinaison de variables correspond au nombre d'observations, une variable au moins de la combinaison ayant une réponse positive. La fréquence correspond au
+  nombre total de réponses positives à la combinaison. Le calcul du
+  pourcentage de réponses utilise toutes les réponses positives à toute variable de
+  la table comme dénominateur.</p>
+
+  <p><span class="runinhead">Variables à analyser</span> Sélectionnez les variables à analyser. Elles doivent toutes être codées de la même façon, au moins en ce qui concerne les réponses positives.</p>
+
+  <p><span class="runinhead">Nombre de combinaisons de variables maximum</span>
+  Spécifiez le nombre de combinaisons maximum pour lequel calculer les variables TURF. Si vous spécifiez 3, par exemple, les meilleures valeurs seront reportées pour toutes les variables individuelles, toutes les combinaisons de deux variables et toutes les combinaisons de trois variables.</p>
+
+  <p><span class="runinhead">Nombre de combinaisons à afficher</span> Indique le nombre maximal de lignes dans chaque tableau. Les lignes sont triées par ordre décroissant de portée, les valeurs ex-aequo sont classées selon la fréquence. Cependant, il peut exister des valeurs ex-aequo supplémentaires avec le dernier élément du tableau.</p>
+
+  <p><span class="runinhead">Pourcentage minimum de réponses positives</span> Si une variable contient un pourcentage de réponses positives inférieur à celui-ci, elle n'est pas prise en compte dans l'analyse. Les variables sans aucune réponse positive ne sont jamais prises en compte.  Ce filtre n'est pas appliqué aux variables forcées :
+  ces dernières sont toujours incluses. </p>
+
+  <p><span class="runinhead">Valeur(s) de réponse positive</span> Par défaut, la valeur 1 définit une réponse positive. Entrez une ou plusieurs valeurs pour définir de manière différente des réponses positives. Par exemple, si les valeurs des réponses se trouvent sur une échelle de 1 à 5, vous pouvez saisir 5 ou 4 5 pour indiquer leur score élevé dans le graphique. Ajoutez un espace entre les valeurs.</p>
+  
+  <p><span class="runinhead">Nombre de variables d'analyse toujours requis</span>
+  La valeur, n, indique que les n premières variables répertoriées dans la zone Variables à analyser
+  sont requises et qu'elles apparaîtront donc dans chacune des combinaisons de variables, quel que soit
+  leur effet sur la portée. Si la valeur est égale à
+  0, aucune variable n'est forcée. Si la valeur est positive, il ne peut exister
+  aucun cycle de suppression.</p>
+
+  <p><span class="runinhead">Nombre de suppressions de variable supérieure et de répétitions d'analyse</span> Saisissez le nombre de fois où la meilleure variable unique doit être supprimée et l'analyse répétée pour les variables restantes. Seules sont utilisées les observations dans lesquelles la meilleure variable unique n'a pas obtenu de réponse positive. L'effet est cumulatif. Par conséquent, deux cycles répètent l'analyse une deuxième fois sans la meilleure variable la première fois mais avec la meilleure variable la seconde fois. Seules les observations négatives dans les deux variables sont utilisées la deuxième fois.</p>
+  
+  <p>Si des séries sont utilisées, le cycle de suppression s'applique uniquement à la phase finale.</p>
+  
+  <p><span class="runinhead">Tracé de portée et de fréquence</span> Cochez cette case pour générer un tracé de la meilleure portée et de la meilleure fréquence pour chaque taille de groupe.</p>
+  
+  <p><span class="runinhead">Afficher uniquement les résultats pour la combinaison de variables maximum</span>
+  Cochez cette case pour afficher uniquement la table de la combinaison de variables maximum.
+  Si cette case n'est pas cochée, des tables sont affichées pour les meilleures combinaisons de chaque taille jusqu'au nombre maximal de variables.  Si des séries sont utilisées, une table est affichée par série, quelle que soit la valeur de ce paramètre.</p>
+
+  <p><span class="runinhead">Limite de la taille</span> L'analyse TURF peut nécessiter un grand nombre de calculs d'unions d'ensembles et une durée de traitement importante. Si vous spécifiez une limite, l'analyse ne sera pas effectuée si elle dépasse cette limite.
+  La sortie de l'analyse TURF contient le nombre d'ensembles d'unions nécessaires. Vous pouvez définir la limite sur 0 pour examiner le problème concernant la taille sans effectuer d'analyse. Les informations sur la taille apparaissent dans un objet journal du visualiseur.</p>
+  
+  <p>Si des séries sont utilisées, la taille s'applique séparément à chacune de ces séries et à la phase finale.</p>
+  
+  <h2>Séries</h2>
+  <p>A mesure que le nombre de variables et de combinaisons augmente, le temps de calcul s'accroît de manière significative.  Vous pouvez utiliser des séries pour trouver une solution approximative, mais généralement précise en un temps beaucoup plus réduit.
+  </p>
+  
+  <p><span class="runinhead">Utiliser des séries pour des problèmes importants</span> Si cette case est cochée, la procédure exécute des séries sur des sous-ensembles de variables choisis de façon aléatoire avec toutes les variables incluses dans une série, et les gagnants des séries sont ajoutés dans une phase finale.  La taille de série et le nombre de gagnants qui vont jusqu'à la phase finale sont contrôlés par les paramètres Taille de série et Nombre de gagnants.  Sélectionnez Automatique pour laisser la procédure définir ces paramètres ou sélectionnez Spécifier pour définir l'une de ces valeurs ou les deux.</p>
+  
+  <p>la taille de série et le nombre de valeurs gagnantes ne doivent pas
+  inclure de variables forcées car elles sont incluses automatiquement
+  dans chaque série.</p>
+  
+  <p>Pour optimiser les performances, le nombre de gagnants doit être inférieur à la taille de série.  Il est recommandé d'équilibrer les paramètres de taille de série et de nombre de gagnants de sorte que la taille de la phase finale ne soit pas considérablement supérieure à celle des phases préliminaires.</p>
+  
+  <p>Si la taille de série est suffisamment élevée pour inclure toutes les variables dans une série, la phase préliminaire est ignorée.</p>
+  
+  <p>Dans la mesure où des variables sont affectées de façon aléatoire à des séries, vous pouvez comparer les solutions basées sur les séries et la solution exacte en exécutant cette procédure plusieurs fois et en examinant la meilleure portée signalée pour chacune d'elles ou en augmentant légèrement le paramètre de nombre de gagnants.</p>
+
+  <h2>Pondérations d'importance</h2> Les pondérations d'importance, à ne pas confondre avec les pondérations d'observations, peuvent être affectées aux variables de l'analyse.
+  Elles ne servent pas à rechercher la meilleure portée mais la sortie contient des statistiques fondées sur ces pondérations.
+
+  <p>La sortie contient l'importance totale et moyenne des réponses positives si des pondérations sont utilisées. D'abord, la moyenne des pondérations d'importance pour les réponses positives d'une combinaison de variables spécifique est calculée pour chaque observation contenant au moins une réponse positive. La sortie indique la moyenne de ces moyennes. L'importance totale apparaît également.</p>
+
+  <p><span class="runinhead">Vérification des pondérations</span> Ces boutons radio déterminent la façon dont la spécification de pondération est vérifiée et utilisée. Si Toutes les variables... est sélectionné, la spécification doit répertorier chaque variable dans l'analyse si des pondérations sont utilisées. Si Supposer que la pondération est de... est sélectionné, on suppose que les variables non répertoriées ont une pondération de 1.</p>
+
+  <p><span class="runinhead">Spécifications des pondérations</span> Entrez les noms des variables et leurs pondérations. Répertoriez chaque nom de variable suivi de la pondération d'importance pour cette variable. Par exemple,<br>
+  <span class=".code">V1 2 V2 1.5</span><br>
+  affecte une pondération de 2 à la variable V1 et de 1,5 à V2. Le symbole décimal doit toujours être un point.</p>
+
+  <h2>Remarques sur les calculs</h2>Les résultats d'itération d'analyse sont associés aux résultats apparaissant dans les tableaux non itérés au fur et à mesure que la taille maximum du groupe augmente. Cependant, il peut exister des différences dans certains cas. Par exemple, le groupe avec les deux meilleures variables peut exclure la meilleure variable unique. L'analyse itérée ne peut pas tenir compte de cela, contrairement à la méthode multigroupe.
+  Cependant, utiliser la suppression de cycles peut clarifier l'effet marginal de l'ajout de variables. En cas d'utilisation de la suppression de cycles, il peut être utile de définir la taille de groupe et le nombre de combinaisons maximum à afficher sur 1.
+
+  <p>Les résultats en pourcentage dépendent des observations prises en compte. Par conséquent, la base sera différente selon l'approche choisie. Le seuil peut également présenter des différences car il est affecté par la base.</p>
+
+  <p>La base des pourcentages de portée comptabilise tous les répondants (après exécution des filtres actifs) afin qu'une valeur manquante puisse contribuer à la base. Avec plusieurs variables dans un groupe, il n'existe pas d'autre façon connue de calculer la base.</p>
+
+  <p>La complexité de ce calcul s'accroît rapidement et de manière analogue au nombre de variables et à la valeur <span class="screen">Nombre de combinaisons de variables maximum</span>. La sortie contient le nombre de calculs d'unions d'ensembles nécessaires.  Il est recommandé d'utiliser des séries pour des problèmes importants.</p>
+
+  <p>Toutes les données des réponses positives sont gardées en mémoire. Un seul passage de données est nécessaire.</p>
+
+  <h2>Fonctions supplémentaires</h2>
+
+  <p>Cette boîte de dialogue génère une syntaxe pour la commande d'extension SPSSINC TURF. Pour afficher l'aide de cette commande, exécutez la syntaxe suivante :</p>
+
+  <p class="codeblock">SPSSINC TURF /HELP.</p>
+  
+  <p>Dans la syntaxe vous pouvez spécifier un fichier journal qui
+enregistre la progression au fur et à mesure de l'exécution de la procédure.  Cela peut se révéler
+très utile pour les travaux dont l'exécution est très longue.</p>
+  
+  <p>La syntaxe fournit des contrôles supplémentaires sur les tables affichées.</p>
+
+  <h2>Conditions requises</h2>
+
+  <p>Cette boîte de dialogue requiert le plug-in d'intégration pour Python et la commande d'extension SPSSINC TURF. Pour IBM SPSS Statistics 19 et versions ultérieures, le plug-in et la commande d'extension sont installés avec Essentials for Python. Pour plus d'informations, reportez-vous à Comment obtenir des plug-in d'intégration dans Système
+central &gt; Questions fréquemment posées dans le système d'aide d'IBM SPSS Statistics.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">
+  © Copyright IBM Corp. 1989, 2016</p>
+</body>
+</html>

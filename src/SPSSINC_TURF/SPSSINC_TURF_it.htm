@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Calcola TURF</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  -->
+  </style>
+</head>
+
+<body>
+  <h1>Calcola TURF (Total Unduplicated Reach and Frequency)</h1>
+  <p>Questa procedura calcola i valori
+TURF per un insieme di variabili di risposta. TURF
+si differenzia dalle frequenze semplici perché spiega le risposte sovrapposte.</p>
+  
+  <p>La portata di una combinazione di variabili è il numero di casi
+  in cui almeno una variabile nella combinazione ha
+  una risposta positiva. La frequenza è il numero totale
+  di risposte positive alla combinazione. Il calcolo
+  Percentuale di risposte utilizza tutte le risposte positive a qualsiasi
+  variabile nella tabella come denominatore.</p>
+
+  <p><span class="runinhead">Variabili da analizzare</span> Selezionare le variabili da
+analizzare. Devono essere
+codificate tutte nello stesso modo, almeno per le risposte positive.</p>
+
+  <p><span class="runinhead">Numero massimo di combinazioni di variabili</span>
+  Specificare il numero massimo di combinazioni per le quali calcolare la TURF. Se si specifica
+3, ad esempio, verranno riportati i valori migliori per tutte le variabili individuali, per tutte le combinazioni di
+due variabili e per tutte le combinazioni di tre variabili.</p>
+
+  <p><span class="runinhead">Numero di combinazioni da visualizzare</span> Determina
+il numero massimo di righe in ogni tabella. Le righe vengono ordinate in modo decrescente di copertura, con le correlazioni
+interrotte dalla frequenza. Tuttavia, potrebbero esistere altre correlazioni con l'ultimo elemento nella tabella.</p>
+
+  <p><span class="runinhead">Percentuale minima di risposte positive</span> Se esiste una percentuale
+di risposte positive per una variabile inferiore a questa, viene scartata dall'analisi. Le variabili
+con zero risposte positive vengono scartate sempre.  Questo filtro non viene applicato alle variabili forzate:
+  che vengono sempre incluse.</p>
+
+  <p><span class="runinhead">Valori di risposte positive</span> Per impostazione predefinita,
+il valore 1 definisce una risposta positiva. Immettere uno o più
+valori per definire le risposte positive in modo differente. Ad esempio,
+se i valori delle risposte sono su una scala da 1 a 5,
+definirli immettendo 5 o 4 5. Inserire uno spazio tra i valori.</p>
+  
+  <p><span class="runinhead">Numero di variabili di analisi sempre richiesto</span>
+  Il valore, n, indica che le prime n variabili elencate nella casella Variabili da analizzare
+  sono obbligatorie e saranno pertanto presenti in ogni combinazione di variabili
+  indipendentemente dal loro effetto sulla portata. Se
+  il valore è 0, non viene forzata alcuna variabile. Se il valore è positivo, non ci può essere
+  alcun ciclo di rimozione.</p>
+
+  <p><span class="runinhead">Numero di rimozioni di variabile migliore e ripetizione esecuzione</span> Immettere il numero di volte per cui deve essere rimossa la migliore variabile singola e deve essere ripetuta l'analisi per le variabili rimanenti. Vengono
+utilizzati solo i casi in cui la migliore variabile singola non ha avuto una risposta positiva. L'effetto
+è cumulativo, quindi due cicli ripeteranno l'analisi una seconda volta senza
+la variabile migliore nel primo turno e la variabile migliore nel secondo turno. Verranno utilizzati solo i casi che erano negativi su entrambe le variabili per il secondo turno.</p>
+  
+  <p>Se si utilizzano le eliminatorie, il ciclo di rimozione si applica solo al turno finale.</p>
+  
+  <p><span class="runinhead">Grafico Copertura e frequenza</span> Selezionare questa casella per produrre un grafico che mostra la migliore copertura e frequenza per ogni dimensione del gruppo.</p>
+  
+  <p><span class="runinhead">Mostra solo i risultati per il numero massimo di combinazioni di variabili</span>
+  Selezionare questa casella per mostrare solo la tabella per il numero massimo di combinazioni di variabili.
+  Se non è selezionata, vengono visualizzate le tabelle per le migliori combinazioni per ogni dimensione fino a e incluso il numero massimo di variabili.  Se si utilizzano le eliminatorie, viene mostrata una sola tabella per eliminatoria indipendentemente da questa impostazione.</p>
+
+  <p><span class="runinhead">Limite dimensione</span> L'analisi TURF
+può richiedere il calcolo di un numero sorprendentemente grande di unioni di insiemi e l'esecuzione può richiede molto tempo. Se
+si specifica un limite, l'analisi non verrà eseguita se supera tale limite.
+  L'output di
+TURF include un'istruzione del numero di unioni di insiemi richiesti. È possibile impostare il limite su 0 per vedere la dimensione del problema senza eseguire l'analisi. Le
+informazioni sulla dimensione vengono visualizzate in un oggetto log del Visualizzatore.</p>
+  
+  <p>Se vengono utilizzate le eliminatorie, la dimensione si applica a ciascuna eliminatoria e al turno finale separatamente.</p>
+  
+  <h2>Eliminatorie</h2>
+  <p>Quando il numero di variabili e il numero di combinazioni aumenta, il tempo di calcolo aumenta notevolmente.  È possibile utilizzare le eliminatorie per trovare una soluzione approssimativa ma di solito precisa in un tempo notevolmente inferiore.
+  </p>
+  
+  <p><span class="runinhead">Utilizza eliminatorie per problemi di grandi dimensioni</span>  Se questa casella è selezionata, la procedura eseguirà le eliminatorie su sottoinsiemi, scelti casualmente, di variabili con tutte le variabili incluse in qualche eliminatoria, e i vincitori delle eliminatorie verranno inclusi in un turno finale.  La dimensione dell'eliminatoria e il numero di vincitori che passano alla finale sono controllati dai parametri Dimensione eliminatoria e Numero di vincitori.  Selezionare Automatico per consentire alla procedura di impostare questi parametri o selezionare Specifica per impostare uno o entrambi questi valori.</p>
+  
+  <p>I valori di dimensione dell'eliminatoria e di numero di vincitori non devono includere
+   variabili forzate poiché vengono incluse automaticamente in ogni eliminatoria.</p>
+  
+  <p>Per prestazioni ottimali, l'impostazione del numero di vincitori dovrebbe essere molto più piccola rispetto alla dimensione dell'eliminatoria.  Si consiglia di bilanciare le impostazioni della dimensione e dei vincitori affinché il turno finale non sia notevolmente più ampio rispetto alle dimensioni dei turni preliminari.</p>
+  
+  <p>Se la dimensione dell'eliminatoria è abbastanza grande da includere tutte le variabili in un'unica eliminatoria, il turno preliminare viene ignorato.</p>
+  
+  <p>Poiché le variabili sono assegnate in modo casuale alle eliminatorie, è possibile avere un'idea del confronto tra le soluzioni basate sulle eliminatorie  e la soluzione esatta eseguendo questa procedura più volte e esaminando il miglior risultato riportato per ognuna o aumentando leggermente il parametro del numero di vincitori.</p>
+
+  <h2>Pesi importanza</h2> I pesi importanza, da non confondere con i pesi dei casi, possono essere assegnati alle variabili nell'analisi.
+  Non
+vengono utilizzati nella ricerca della copertura migliore, ma l'output include alcune statistiche che si basano su di essi.
+
+  <p>L'output include l'importanza totale delle risposte positive se si utilizzano i pesi. In primo luogo, viene calcolata
+la media dei pesi importanza delle risposte positive per una determinata combinazione di variabili per ogni caso che ha
+almeno una risposta positiva. L'output riporta la media di queste medie. Viene visualizzata anche l'importanza totale.</p>
+
+  <p><span class="runinhead">Controllo dei pesi</span> Questi pulsanti di scelta
+determinano il modo in cui viene controllata e utilizzata la specifica di peso. Se è
+selezionata l'opzione Tutte le variabili..., la specifica deve elencare ogni variabile nell'analisi
+se si utilizzano dei pesi. Se è selezionata l'opzione Presumi peso..., si presume che il peso delle variabili non elencate
+sia 1.</p>
+
+  <p><span class="runinhead">Specifiche di peso</span> Immettere i nomi e i pesi delle variabili. Elencare ogni
+nome di variabile seguito dal peso importanza per la variabile in questione. Ad esempio,<br>
+  <span class=".code">V1 2 V2 1.5</span><br>
+  assegna un peso 2 alla variabile V1 e 1.5 a V2. Il simbolo decimale deve essere sempre un punto.</p>
+
+  <h2>Note sul calcolo</h2>I risultati dell'iterazione dell'analisi sono correlati ai risultati mostrati nelle
+tabelle non iterate con l'aumentare della dimensione massima del gruppo. Possono esservi delle differenza, tuttavia,
+in alcune situazioni. Ad esempio, il miglior gruppo di due variabili potrebbe includere la migliore variabile singola. L'analisi
+iterata non può rilevare ciò, ma il metodo con più gruppi è in grado di farlo.
+  Utilizzando i
+cicli di rimozione, tuttavia, può avere l'effetto marginale di rendere l'aggiunta di variabili più chiara. Può essere
+utile se si utilizzano i cicli di rimozione per impostare la dimensione massima del gruppo e il numero di combinazioni da mostrare su 1.
+
+  <p>I risultati
+in percentuale si basano sui casi inclusi, quindi la base sarà diversa con i due approcci. La definizione di soglie può
+anche introdurre delle differenze, poiché è determinata dal caso.</p>
+
+  <p>La base per le percentuali di copertura conta tutti i rispondenti (dopo l'applicazione di un filtro), quindi un valore
+mancante può contribuire alla base. Con più variabili in un gruppo, non esiste un altro modo ovvio per calcolare la base.</p>
+
+  <p>Il peso di questo calcolo cresce molto rapidamente con l'aumentare del numero di variabili e del valore di
+<span class="screen">Combinazioni di variabili max</span>. L'output include il numero di calcoli di unioni di insiemi richiesti.  Si consiglia l'utilizzo delle eliminatorie con problemi di grandi dimensioni.</p>
+
+  <p>Tutti i dati nelle risposte positive sono conservati in memoria. È richiesto un solo passaggio di dati.</p>
+
+  <h2>Funzioni aggiuntive</h2>
+
+  <p>Questa finestra di dialogo rappresenta la sintassi per il comando di estensione SPSSINC TURF. Per visualizzare la guida per questo comando, utilizzare la sintassi riportata di seguito:</p>
+
+  <p class="codeblock">SPSSINC TURF /HELP.</p>
+  
+  <p>Nella sintassi è possibile specificare un file di log che registra l'avanzamento durante l'esecuzione del comando.  Ciò può essere utile per i lavori ad esecuzione molto lunga.</p>
+  
+  <p>La sintassi fornisce dei controlli aggiuntivi sulle tabelle visualizzate.</p>
+
+  <h2>Requisiti</h2>
+
+  <p>Questa finestra di dialogo richiede Integration Plug-In for Python e il comando di estensione SPSSINC TURF. Per IBM® SPSS®
+  Statistics 19 e versioni successive, il plug-in e il comando di estensione sono installati con Essentials for Python. Per ulteriori informazioni, consultare Come ottenere i plug-in di integrazione
+in Sistema principale &gt; Domande frequenti nella guida in linea di IBM SPSS Statistics.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">
+  © Copyright IBM Corp. 1989, 2016</p>
+</body>
+</html>

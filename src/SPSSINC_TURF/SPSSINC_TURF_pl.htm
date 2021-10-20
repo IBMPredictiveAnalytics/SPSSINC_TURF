@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Oblicz TURF</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  -->
+  </style>
+</head>
+
+<body>
+  <h1>Oblicz całkowity niezduplikowany zasięg i częstość (analiza TURF)</h1>
+  <p>Ta procedura oblicza wartości TURF dla zestawu zmiennych odpowiedzi. TURF różni się od prostych częstości, ponieważ zlicza odpowiedzi zachodzące na siebie.</p>
+  
+  <p>Zasięg dla kombinacji zmiennych to liczba obserwacji, w których dla co najmniej jednej zmiennej w kombinacji uzyskano pozytywną odpowiedź.  Częstość to łączna liczba pozytywnych odpowiedzi na kombinację.  Do obliczenia odsetka odpowiedzi jako mianownik wykorzystywane są wszystkie odpowiedzi pozytywne na dowolną zmienną w tabeli.</p>
+
+  <p><span class="runinhead">Zmienne do analizy</span> Wybierz zmienne do analizy. Wszystkie, a przynajmniej odpowiedzi pozytywne, powinny być zakodowane w taki sam sposób.</p>
+
+  <p><span class="runinhead">Maksymalna liczba kombinacji zmiennych</span>
+ Podaj maksymalną liczbę kombinacji, dla których ma zostać przeprowadzone obliczenie TURF. Jeśli określisz na przykład 3, najlepsze wartości zostaną zgłoszone dla wszystkich zmiennych pojedynczych, wszystkich kombinacji dwóch zmiennych oraz wszystkich kombinacji trzech zmiennych.</p>
+
+  <p><span class="runinhead">Liczba kombinacji do wyświetlenia</span> Określa maksymalną liczbę wierszy w każdej tabeli. Wiersze są posortowane w kolejności malejącej zasięgu, gdzie powiązania są przerwane przez częstość. Jednak mogą występować dodatkowe powiązania z ostatnim elementem w tabeli.</p>
+
+  <p><span class="runinhead">Minimalna wartość procentowa pozytywnych odpowiedzi</span> Jeśli wartość procentowa pozytywnych odpowiedzi dla zmiennej jest mniejsza niż ta wartość, zmienna ta zostanie odrzucona z analizy. Zmienne zawierające zero pozytywnych odpowiedzi są zawsze odrzucane.  Ten filtr nie jest stosowany do zmiennych wymuszonych: są one zawsze uwzględniane.</p>
+
+  <p><span class="runinhead">Wartości pozytywnych odpowiedzi</span> Domyślnie pozytywną odpowiedź definiuje wartość 1. Wprowadź przynajmniej jedną wartość, by zdefiniować w różny sposób odpowiedzi pozytywne. Na przykład, jeśli wartości odpowiedzi mieszczą się w skali od 1 do 5, możesz je wyróżnić wprowadzając wartość 5 lub 4 5. Między wartościami umieść spację.</p>
+  
+  <p><span class="runinhead">Liczba zmiennych do analizy zawsze wymagana</span>
+  Wartość n wskazuje, że pierwsze n zmiennych wymienionych w polu Zmienne do analizy są wymagane i dlatego pojawią się w każdej kombinacji zmiennych niezależnie od ich wpływu na zasięg.  Jeśli wartość jest równa 0, żadne zmienne nie są wymuszane.  Jeśli wartość jest dodatnia, nie mogą być wykonywane żadne cykle usuwania.</p>
+
+  <p><span class="runinhead">Liczba usunięć najlepszej zmiennej i powtórzeń przebiegu</span> Wprowadź liczbę, ile razy najlepsza pojedyncza zmienna powinna być usuwana i analiza powinna być powtarzana dla pozostałych zmiennych. Używane są tylko obserwacje, dla których najlepsza pojedyncza zmienna nie ma pozytywnej odpowiedzi. Wynik jest skumulowany, więc dwa cykle powtórzą analizę drugi raz bez najlepszej zmiennej w pierwszej rundzie i bez najlepszej zmiennej w drugiej rundzie. Użyte zostaną tylko obserwacje, które w drugiej rundzie były negatywne dla obydwu zmiennych.</p>
+  
+  <p>W przypadku stosowania natężeń cykl usuwania ma zastosowanie wyłącznie do rundy końcowej</p>
+  
+  <p><span class="runinhead">Wykres zasięgu i częstotliwości</span> Zaznacz tę opcję, aby wygenerować wykres przedstawiający najlepszy zasięg i częstotliwość dla każdej wielkości grupy.</p>
+  
+  <p><span class="runinhead">Pokaż tylko wyniki dla maksymalnej kombinacji zmiennych</span>
+  Zaznacz tę opcję, aby wyświetlić tylko tabelę dla maksymalnej kombinacji zmiennych.
+  Jeśli nie zaznaczono tego pola wyboru, wyświetlane są tabele dla najlepszych kombinacji dla
+każdego rozmiaru aż do maksymalnej liczby zmiennych (włącznie z nią).  W przypadku stosowania natężeń niezależnie od tego ustawienia wyświetlana jest jedna tabela dla każdego natężenia.</p>
+
+  <p><span class="runinhead">Ograniczenie rozmiaru</span> Analiza TURF może wymagać obliczenia zaskakująco dużej liczby zestawów kombinacji i znacznej ilości czasu potrzebnego na jej przeprowadzenie. Jeśli poda się granicę, analiza przestanie być wykonywana po przekroczeniu tej granicy.
+  Wynik TURF obejmuje stwierdzenie liczby wymaganych zestawów kombinacji. Można ustawić limit na wartości 0, aby zobaczyć rozmiar problemu bez przeprowadzania analizy. Informacja o rozmiarze pojawi się w obiekcie dziennika podglądu.</p>
+  
+  <p>W przypadku stosowania natężeń wielkość ma zastosowanie osobno do każdego natężenia i osobno do rundy końcowej.</p>
+  
+  <h2>Natężenia</h2>
+  <p>W miarę wzrostu liczby zmiennych i liczby kombinacji zmiennych czas obliczeń gwałtownie rośnie.  Można zastosować natężenia w celu odnalezienia przybliżonego, lecz zwykle dokładnego rozwiązania w znacząco krótszym czasie.
+  </p>
+  
+  <p><span class="runinhead">Użyj natężeń dla dużych problemów</span> Jeśli ta opcja jest
+zaznaczona, procedura uruchomi natężenia na losowo wybranych
+  podzbiorach zmiennych z wszystkimi zmiennymi objętymi pewnym natężeniem, zaś zwycięskie natężenia
+zostaną uwzględnione w rundzie końcowej.  Wielkość natężenia i liczba wygrywających przechodzących do finału jest kontrolowana przez parametry Wielkość natężenia i Liczba wygrywających.  Zaznacz opcję Automatycznie, aby umożliwić ustawienie tych parametrów przez procedurę, lub zaznacz opcję Określ, aby ustawić jedną lub obie z tych wartości.</p>
+  
+  <p>Rozmiar natężenia i liczby zwycięzców nie powinny zawierać wymuszonych zmiennych, ponieważ są one automatycznie dołączane do każdego natężenia.</p>
+  
+  <p>W celu zapewnienia odpowiedniej wydajności ustawienie liczby wygrywających powinno być niższe od wielkości natężenia.  Optymalnie jest określić ustawienia wielkości i liczby wygrywających tak, aby runda końcowa nie była znacząco większa od rundy wstępnej.</p>
+  
+  <p>Jeśli wielkość natężenia jest wystarczająco duża, aby uwzględnić wszystkie zmienne w jednym
+obszarze natężenia, runda wstępna jest pomijana.</p>
+  
+  <p>Ponieważ zmienne są losowo przypisywane do natężeń, można zorientować się, jak mają się
+rozwiązania oparte na obszarach natężeń do rozwiązań opartych na wartościach dokładnych,
+uruchamiając tę procedurę wiele razy i sprawdzając optymalny zasięg zgłoszony dla każdej z nich lub nieznacznie zwiększając liczbę parametrów wygrywających.</p>
+
+  <h2>Wagi ważności</h2> Analiza TURF może wymagać obliczenia zaskakująco dużej liczby zestawów kombinacji i znacznej ilości czasu potrzebnego na jej przeprowadzenie.
+  Jeśli poda się granicę, analiza przestanie być wykonywana po przekroczeniu tej granicy.
+
+  <p>Wynik TURF obejmuje stwierdzenie liczby wymaganych zestawów kombinacji. Można ustawić limit na wartości 0, aby zobaczyć rozmiar problemu bez przeprowadzania analizy. Informacja o rozmiarze pojawi się w obiekcie dziennika podgląd. Podawana jest także łączna ważność.</p>
+
+  <p><span class="runinhead">Sprawdzanie wag</span> Te opcje określają, w jaki sposób sprawdzana i używana jest specyfikacja ważenia. Jeśli wybrana zostanie opcja Wszystkie zmienne..., specyfikacja musi wymieniać każdą zmienną analizy, jeżeli używane są jakiekolwiek wagi. Jeśli wybrana zostanie opcja Przyjmij wagę..., dla zmiennych niewymienionych przyjmuje się wagę 1.</p>
+
+  <p><span class="runinhead">Specyfikacje wag</span> Wprowadź nazwy zmiennych i wagi. Wypisz każdą nazwę zmiennych razem z jej wagą ważności. Na przykład,<br>
+  <span class=".code">V1 2 V2 1.5</span><br>
+  przypisuje wagę 2 zmiennej V1, a 1.5 zmiennej V2. Separatorem dziesiętnym zawsze musi być kropka.</p>
+
+  <h2>Uwagi dotyczące obliczeń</h2>W miarę zwiększania rozmiaru grupy, wyniki iteracji analizy stają się związane z wynikami pokazanymi w nieiterowanych tabelach. W niektórych sytuacjach mogą jednak wystąpić różnice. Na przykład, grupa dwóch najlepszych zmiennych może wyłączyć najlepszą pojedynczą zmienną. Powtórzona analiza nie może jej wychwycić, ale grupowa ma taką możliwość.
+  Jednak zastosowanie cykli usuwania może doprowadzić do tego, że marginalny efekt dodawania zmiennych będzie wyraźniejszy. Gdy używa się usuwania cyklów, dobrze jest ustawić maksymalny rozmiar grupy i liczbę pokazywanych kombinacji na 1.
+
+  <p>Wyniki procentowe bazują na uwzględnionych obserwacjach, zatem podstawa będzie się różnić w przypadku zastosowania obu tych podejść. Używanie progu może także wprowadzić różnice, ponieważ zależy ono od podstawy.</p>
+
+  <p>Podstawa dla każdej wartości procentowej liczy wszystkich respondentów (po wszystkich przefiltrowaniach), by brakująca wartość mogła też mieć swój wpływ na podstawę. Gdy w grupie znajduje się wiele zmiennych, nie ma innego oczywistego sposobu na wyliczenie bazy.</p>
+
+  <p>Ciężar obliczeniowy tych wyliczeń rośnie bardzo szybko, wraz z liczbą zmiennych oraz wartością <span class="screen">Maksymalne kombinacje zmiennych</span>. Wynik obejmuje liczbę wymaganych obliczeń kombinacji zestawów.  Stosowanie natężeń jest zalecane w przypadku dużych problemów.</p>
+
+  <p>Wszystkie dane na temat pozytywnych odpowiedzi muszą zostać zapisane w pamięci. Wymagane jest tylko jedno przekazanie danych.</p>
+
+  <h2>Funkcje dodatkowe</h2>
+
+  <p>To pole dialogowe generuje składnię dla komendy rozszerzającej SPSSINC TURF. Aby wyświetlić pomoc dotyczącą tej komendy, uruchom następującą komendę:</p>
+
+  <p class="codeblock">SPSSINC TURF /HELP.</p>
+  
+  <p>W składni można określić plik dziennika rejestrujący postęp realizacji wskazanej komendy.  Może to okazać się pomocne w przypadku długotrwałych zadań.</p>
+  
+  <p>Składnia udostępnia dodatkowe elementy sterujące nad wyświetlanymi tabelami.</p>
+
+  <h2>Wymagania</h2>
+
+  <p>To okno dialogowe wymaga zainstalowania wtyczki integracji dla języka Python oraz komendy rozszerzającej SPSSINC TURF. Dla wersji programu IBM® SPSS® Statistics 19 i nowszej, wtyczka oraz komenda rozszerzająca są instalowane razem z pakietem Essentials dla języka Python. W celu uzyskania dalszych informacji, patrz temat W jaki sposób pobrać wtyczki integracyjne, wybierając opcję System główny &gt;
+Często zadawane pytania w systemie pomocy IBM SPSS Statistics.</p><br>
+  <hr>
+
+  <p style="font-size:80%;">
+© Copyright IBM Corp. 1989, 2016</p>
+</body>
+</html>
