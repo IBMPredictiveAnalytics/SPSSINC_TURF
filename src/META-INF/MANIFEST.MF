@@ -1,4 +1,5 @@
 Name: SPSSINC TURF
+Display-Name: TURF
 Dialog-Specs: SPSSINC_TURF.spd
 Command-Specs: SPSSINC_TURF.xml
 Code-Files: SPSSINC_TURF.py
